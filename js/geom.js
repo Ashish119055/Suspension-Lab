@@ -404,3 +404,44 @@ function makeRoad() {
   m.userData.tex = tex;
   return m;
 }
+
+/* ── road hazards: speed breaker (white-striped hump) and pothole ── */
+const HUMP = { L: 1.1, H: 0.07 };     // length along the road, height (m)
+const POT = { R: 0.36, D: 0.05 };     // pothole radius, depth (m)
+const humpY = (dz) => (Math.abs(dz) < HUMP.L / 2 ? HUMP.H * Math.cos(Math.PI * dz / HUMP.L) ** 2 : 0);
+const potY = (dz) => (Math.abs(dz) < POT.R ? -POT.D * Math.cos(Math.PI * dz / (2 * POT.R)) ** 2 : 0);
+function stripeTexture(bands, a, b) {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 64; const x = c.getContext('2d');
+  const w = 512 / bands;
+  for (let i = 0; i < bands; i++) { x.fillStyle = i % 2 ? b : a; x.beginPath(); x.moveTo(i * w, 0); x.lineTo(i * w + w, 0); x.lineTo(i * w + w - 18, 64); x.lineTo(i * w - 18, 64); x.closePath(); x.fill(); }
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.wrapS = THREE.RepeatWrapping; return t;
+}
+function makeHump(width) {
+  const geo = new THREE.PlaneGeometry(width, HUMP.L, 4, 40);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) pos.setY(i, humpY(pos.getZ(i)) + 0.004);
+  geo.computeVertexNormals();
+  const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: stripeTexture(14, '#f4f4ef', '#24272b'), roughness: 0.8 }));
+  m.receiveShadow = true; m.castShadow = true;
+  return m;
+}
+function makePothole() {
+  const g = new THREE.Group();
+  const geo = new THREE.CircleGeometry(POT.R, 40, 0, Math.PI * 2);
+  const p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) { const a = Math.atan2(p.getY(i), p.getX(i)); const r = Math.hypot(p.getX(i), p.getY(i)); const k = 1 + 0.12 * Math.sin(a * 5) + 0.07 * Math.sin(a * 11 + 1); p.setX(i, Math.cos(a) * r * k); p.setY(i, Math.sin(a) * r * k * 0.8); }
+  const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  const gr = x.createRadialGradient(64, 64, 6, 64, 64, 64); gr.addColorStop(0, '#0b0c0d'); gr.addColorStop(0.75, '#1c1e21'); gr.addColorStop(1, '#4a4d52');
+  x.fillStyle = gr; x.fillRect(0, 0, 128, 128);
+  const tex = new THREE.CanvasTexture(c); tex.encoding = THREE.sRGBEncoding;
+  const hole = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 1 }));
+  hole.rotation.x = -Math.PI / 2; hole.position.y = 0.005; hole.receiveShadow = true; g.add(hole);
+  // white warning paint ring (dashed) around the pothole
+  for (let i = 0; i < 16; i++) {
+    if (i % 2) continue;
+    const ring = new THREE.Mesh(new THREE.RingGeometry(POT.R * 1.3, POT.R * 1.45, 8, 1, (i / 16) * Math.PI * 2, Math.PI * 2 / 16), new THREE.MeshStandardMaterial({ color: 0xf4f4ef, roughness: 0.7 }));
+    ring.rotation.x = -Math.PI / 2; ring.scale.y = 0.85; ring.position.y = 0.006; g.add(ring);
+  }
+  return g;
+}

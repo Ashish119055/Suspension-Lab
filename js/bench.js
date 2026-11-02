@@ -3,7 +3,7 @@
 'use strict';
 
 const Bench = (() => {
-  let leaderSvg, renderer, scene, camera, root, ground, grid, keyLight, container, balloonLayer, tip, road, car = null, spinList = [], spinA = 0;
+  let hazards, haz = [], driveT = 0, ghostWheels = [], leaderSvg, renderer, scene, camera, root, ground, grid, keyLight, container, balloonLayer, tip, road, car = null, spinList = [], spinA = 0;
   let wideMode = true;
   const SPIN = new Set(['tyre', 'rim', 'wheelnuts', 'disc', 'drum', 'hub']);
   let sysDef = null, built = null, bodies = {}, parts = [], partById = {}, pickables = [];
@@ -74,6 +74,7 @@ const Bench = (() => {
 
     root = new THREE.Group(); scene.add(root);
     road = makeRoad(); road.visible = false; scene.add(road);
+    hazards = new THREE.Group(); scene.add(hazards); hazards.visible = false;
 
     balloonLayer = document.createElement('div'); balloonLayer.className = 'balloons'; el.appendChild(balloonLayer);
     leaderSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); leaderSvg.setAttribute('class', 'leaders'); el.insertBefore(leaderSvg, balloonLayer);
@@ -129,8 +130,16 @@ const Bench = (() => {
       root.add(car); car.visible = st.showBody;
       car.userData.spinners.forEach(([o, sx]) => spinList.push({ obj: o, q0: o.quaternion.clone(), sx }));
       const zf = def.car.axle === 'front' ? 0 : def.car.wb; road.position.z = zf - def.car.wb / 2; road.position.x = -1.1; // keep-left: centre line on the vehicle's right
+      // speed breakers across the road and potholes under the left-hand wheels, repeating every 8 m
+      hazards.clear(); haz = [];
+      const tw = def.car.track;
+      [0, 8].forEach((o) => {
+        const h = makeHump(4.4); h.position.x = -1.1; hazards.add(h); haz.push({ type: 'hump', obj: h, base: 3 + o });
+        const ph = makePothole(); ph.position.x = tw; hazards.add(ph); haz.push({ type: 'pot', obj: ph, base: 7 + o });
+      });
+      ghostWheels = car.userData.spinners.map(([o]) => ({ o, y0: o.position.y, z: o.position.z, x: o.position.x }));
     }
-    road.visible = !!car && st.showBody;
+    road.visible = !!car && st.showBody; hazards.visible = road.visible; driveT = 0; placeHazards();
     built.parts.forEach((p) => { if (SPIN.has(p.info)) p.pieces.forEach((pc) => spinList.push({ obj: pc.obj, q0: pc.obj.quaternion.clone(), sx: pc.sx || 1 })); });
     st.s = 0; st.sTarget = 0; st.cycle = false; st.selected = null; st.hover = null; st.isolate = false; st.hl = new Set();
     applySection(); applyGhost(); needKin = true;
@@ -337,11 +346,14 @@ const Bench = (() => {
     // travel
     const locked = anyRemoved();
     if (st.cycle && !locked) st.sTarget = 0.075 * Math.sin(clock * 2 * Math.PI * 0.45);
-    if (st.drive && !locked) { const ph = clock % 4.2; st.sTarget = 0.018 * Math.sin(clock * 5.3) + 0.01 * Math.sin(clock * 13.1 + 1) + (ph < 0.5 ? 0.065 * Math.sin(ph / 0.5 * Math.PI) : 0) + (ph > 2.1 && ph < 2.6 ? -0.045 * Math.sin((ph - 2.1) / 0.5 * Math.PI) : 0); }
+    if (st.drive && !locked) {
+      driveT += dt; const ev = placeHazards();
+      st.sTarget = ev + 0.004 * Math.sin(clock * 9.1) + 0.003 * Math.sin(clock * 17.3 + 1); st.s = st.sTarget; needKin = true;
+    }
     if ((st.drive || st.spin) && !locked) {
-      spinA += dt * 6; const q = new THREE.Quaternion();
+      spinA += dt * DRIVE_V / (built.hp.Rt || 0.32); const q = new THREE.Quaternion();
       spinList.forEach((w) => { q.setFromAxisAngle(UP, w.sx * spinA); w.obj.quaternion.copy(w.q0).multiply(q); });
-      if (road.visible) road.userData.tex.offset.y -= dt * 0.48;
+      if (road.visible && st.drive) road.userData.tex.offset.y -= dt * DRIVE_V / 4;
     }
     if (locked) st.sTarget = 0;
     const ds = (st.sTarget - st.s) * (1 - Math.exp(-dt * 9));
@@ -358,6 +370,22 @@ const Bench = (() => {
     renderer.render(scene, camera);
     placeBalloons();
     api.onFrame && api.onFrame(readouts(), locked);
+  }
+  /* Move speed breakers / potholes along the road; return the wheel lift they cause at the modelled wheel (z = 0) */
+  const DRIVE_V = 1.9; // m/s, slow enough to watch
+  function placeHazards() {
+    if (!haz.length) return 0;
+    const z0 = road.position.z - 8; let s = 0;
+    haz.forEach((hz) => {
+      const z = z0 + ((((hz.base - DRIVE_V * driveT) % 16) + 16) % 16);
+      hz.obj.position.z = z;
+      s += hz.type === 'hump' ? humpY(z) : potY(z);
+    });
+    ghostWheels.forEach((g) => {
+      let lift = 0; haz.forEach((hz) => { if (hz.type === 'hump') lift += humpY(hz.obj.position.z - g.z); else if (Math.abs(g.x - hz.obj.position.x) < 0.3) lift += potY(hz.obj.position.z - g.z); });
+      g.o.position.y = g.y0 + lift;
+    });
+    return s;
   }
   function placeBalloons() {
     const w = container.clientWidth, h = container.clientHeight; const boxes = [], calls = [];
@@ -425,7 +453,7 @@ const Bench = (() => {
   Object.defineProperties(api, { parts: { get: () => parts }, built: { get: () => built } });
   return Object.assign(api, {
     init, load, setTheme, select, focusPart, resetView, fit, setRemoved, readouts, snapshot, highlight, refreshLabels,
-    setBody(on) { st.showBody = on; if (car) car.visible = on; road.visible = on && !!car; },
+    setBody(on) { st.showBody = on; if (car) car.visible = on; road.visible = on && !!car; hazards.visible = road.visible; },
     setDrive(on) { st.drive = on; st.cycle = false; if (!on) st.sTarget = 0; },
     setSpin(on) { st.spin = on; },
     setAllNames(on) { st.allNames = on; parts.forEach((p) => { p.label.dataset.key = ''; }); },
