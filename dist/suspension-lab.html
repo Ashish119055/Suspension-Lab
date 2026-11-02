@@ -653,6 +653,12 @@ body.diagram-mode .dg-wrap { display: block; }
 #view-dash .view-head { flex-direction: column; align-items: flex-start; }
 #view-dash .view-head > div:first-child { flex: none; }
 
+/* full-screen buttons that are always in view (header + top-right of the 3D stage) */
+.fs-btn { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+.fs-btn[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--panel); }
+.st-full { position: absolute; top: 12px; right: 12px; z-index: 6; box-shadow: 0 4px 14px rgba(0, 0, 0, .22); }
+@media (max-width: 520px) { #hdrFull span { display: none; } #hdrFull { padding: 0 10px; } .st-full { top: 8px; right: 8px; height: 34px; padding: 0 10px; font-size: 12.5px; } }
+
 </style>
 </head>
 <body>
@@ -673,6 +679,7 @@ body.diagram-mode .dg-wrap { display: block; }
   <div class="top-actions">
     <div class="seg lang-seg" role="radiogroup" aria-label="Language / ભાષા / भाषा" id="langSeg"></div>
     
+    <button class="fs-btn" id="hdrFull" title="Full screen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-i18n="tb_full">Full screen</span></button>
     <button class="icon-btn" id="themeBtn" aria-label="Toggle light or dark theme" title="Light / dark">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
     </button>
@@ -699,6 +706,7 @@ body.diagram-mode .dg-wrap { display: block; }
         <div class="stage" id="stage">
           <div class="viewport" id="viewport">
             <div class="stage-title"><b id="stTitle">—</b><span id="stAxle"></span><button class="btn accent how-btn" id="howBtn" data-i18n="how_btn">▶ How it works</button></div>
+            <button class="fs-btn st-full" id="stFull" title="Full screen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-i18n="tb_full">Full screen</span></button>
             <div class="stage-hint" id="stageHint" data-i18n="hint">Tap any part to see its name · drag to turn · pinch to zoom</div>
             <div class="diagram-hint" id="diagramHint" data-i18n="diagram_hint" hidden></div>
           </div>
@@ -780,7 +788,7 @@ body.diagram-mode .dg-wrap { display: block; }
   <section class="view" id="view-mcq" hidden></section>
 </main>
 
-<footer class="foot"><b>Govt ITI Maninagar · <a href="https://itilabgujarati.blogspot.com" target="_blank" rel="noopener">itilabgujarati.blogspot.com</a> · @ashish_9978</b><br>Values are typical figures for training and comparison. Always use the manufacturer's workshop manual, torque specifications and safety procedures for a specific vehicle.</footer>
+<footer class="foot"><b><a href="https://itilabgujarati.blogspot.com" target="_blank" rel="noopener">itilabgujarati.blogspot.com</a> · @ashish_9978</b><br>Values are typical figures for training and comparison. Always use the manufacturer's workshop manual, torque specifications and safety procedures for a specific vehicle.</footer>
 <!--APP-END-->
 
 <script>
@@ -4616,6 +4624,7 @@ window.Mcq = Mcq;
   function setFullUI() {
     const on = isFull(); $('#tbFull').setAttribute('aria-pressed', on);
     $('#tbFull span').textContent = on ? tr('tb_exitfull') : tr('tb_full');
+    ['#hdrFull', '#stFull'].forEach((q) => { const b = $(q); if (b) { b.setAttribute('aria-pressed', on); b.querySelector('span').textContent = on ? tr('tb_exitfull') : tr('tb_full'); } });
     document.body.style.overflow = stageEl.classList.contains('max') ? 'hidden' : '';
     setTimeout(() => Bench.resetView(false), 350);
   }
@@ -4631,6 +4640,11 @@ window.Mcq = Mcq;
     setTimeout(() => { if (!fsEl()) fallback(); }, 400);
   }
   $('#tbFull').addEventListener('click', toggleFull);
+  // always-visible full-screen buttons: in the header and on the 3D view itself
+  $('#stFull').addEventListener('click', toggleFull);
+  $('#hdrFull').addEventListener('click', () => {
+    if (!['bench', 'diagram'].includes(state.view)) { location.hash = '#bench'; setTimeout(toggleFull, 300); } else toggleFull();
+  });
   document.addEventListener('fullscreenchange', setFullUI); document.addEventListener('webkitfullscreenchange', setFullUI);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && stageEl.classList.contains('max')) { stageEl.classList.remove('max'); setFullUI(); } });
 

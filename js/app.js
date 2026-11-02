@@ -247,6 +247,7 @@
   function setFullUI() {
     const on = isFull(); $('#tbFull').setAttribute('aria-pressed', on);
     $('#tbFull span').textContent = on ? tr('tb_exitfull') : tr('tb_full');
+    ['#hdrFull', '#stFull'].forEach((q) => { const b = $(q); if (b) { b.setAttribute('aria-pressed', on); b.querySelector('span').textContent = on ? tr('tb_exitfull') : tr('tb_full'); } });
     document.body.style.overflow = stageEl.classList.contains('max') ? 'hidden' : '';
     setTimeout(() => Bench.resetView(false), 350);
   }
@@ -262,6 +263,11 @@
     setTimeout(() => { if (!fsEl()) fallback(); }, 400);
   }
   $('#tbFull').addEventListener('click', toggleFull);
+  // always-visible full-screen buttons: in the header and on the 3D view itself
+  $('#stFull').addEventListener('click', toggleFull);
+  $('#hdrFull').addEventListener('click', () => {
+    if (!['bench', 'diagram'].includes(state.view)) { location.hash = '#bench'; setTimeout(toggleFull, 300); } else toggleFull();
+  });
   document.addEventListener('fullscreenchange', setFullUI); document.addEventListener('webkitfullscreenchange', setFullUI);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && stageEl.classList.contains('max')) { stageEl.classList.remove('max'); setFullUI(); } });
 
