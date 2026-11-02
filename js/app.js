@@ -31,7 +31,7 @@
     if (!Bench.built) return;
     $('#stTitle').textContent = sysName(state.sys); $('#stAxle').textContent = sysAxle(state.sys);
     Bench.refreshLabels();
-    renderProc(); renderBom(); renderSys(); renderCompare(); renderTheory();
+    renderProc(); renderBom(); renderSys(); renderCompare(); renderTheory(); renderDiagrams();
     if (Bench.st.selected) openDrawer(Bench.st.selected);
     if (how.on) showScene();
     refreshCharts();
@@ -353,6 +353,23 @@
     Bench.setAllNames(false); toggleTb('#tbExplode', false); setSide('proc'); setDrive(true);
   }
 
+  /* ── detailed component diagrams ── */
+  function renderDiagrams() {
+    const li = Math.max(0, LANGS.findIndex(([k]) => k === LANG));
+    $('#dgWrap').innerHTML = `<div class="view-head"><div><h2 class="dg-h">${esc(DG_TX.title[li])}</h2><p class="lede">${esc(DG_TX.lede[li])}</p></div></div>
+      <div class="dg-grid">${DIAGRAMS.map((d) => `<article class="panel dg-card dga-${d.anim || 'static'}" id="dg-${d.id}">
+        <h3>${esc(d.t[li])}</h3>
+        <div class="dg-body"><div class="dg-fig">${d.svg()}${d.anim === 'stroke' ? `<div class="dg-stroke"><span class="dg-sc">${esc(DG_TX.comp[li])}</span><span class="dg-se">${esc(DG_TX.ext[li])}</span></div>` : ''}</div>
+        <ol class="dg-legend">${d.l.map((k, i) => `<li data-n="${i + 1}"><b>${i + 1}</b>${esc(DG_LBL[k][li])}</li>`).join('')}</ol></div>
+        <p class="dg-cap">${esc(d.c[li])}</p></article>`).join('')}</div>`;
+    $('#dgWrap').querySelectorAll('.dg-legend li').forEach((el) => {
+      const card = el.closest('.dg-card');
+      const on = (v) => card.querySelectorAll(`.dg-m[data-n="${el.dataset.n}"]`).forEach((m) => m.classList.toggle('on', v));
+      el.addEventListener('mouseenter', () => on(true)); el.addEventListener('mouseleave', () => on(false));
+      el.addEventListener('click', () => { card.querySelectorAll('.dg-m.on').forEach((m) => m.classList.remove('on')); on(true); });
+    });
+  }
+
   /* ── theory ── */
   function renderTheory() {
     const list = THEORY[LANG] || THEORY.en; const head = THEORY_HEAD[LANG] || THEORY_HEAD.en;
@@ -401,7 +418,7 @@
   Bench.setTheme(isDark());
   buildLang();
   buildSysbar();
-  renderTheory();
+  renderTheory(); renderDiagrams();
   route();
   setSystem(store.get('sys') || SYSTEMS[0].id);
   setLang(store.get('lang') || 'en');

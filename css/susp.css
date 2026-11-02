@@ -449,3 +449,100 @@ body.diagram-mode .how-btn, body.diagram-mode .travel, body.diagram-mode .readou
 .leaders path { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-opacity: .7; }
 .leaders circle { fill: var(--accent); stroke: var(--panel); stroke-width: 1.5; }
 .balloons { z-index: 3; }
+
+/* ── detailed component diagrams (Diagram tab) ── */
+.dg-wrap { display: none; margin-top: 22px; }
+body.diagram-mode .dg-wrap { display: block; }
+.dg-h { font-size: clamp(22px, 2.6vw, 30px); }
+.dg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 430px), 1fr)); gap: 14px; }
+.dg-card h3 { font-size: 20px; margin-bottom: 8px; }
+.dg-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.dg-fig { background: radial-gradient(120% 90% at 50% 25%, var(--stage-a), var(--stage-b)); border: 1px solid var(--line); border-radius: 10px; padding: 6px; position: relative; }
+.dg-svg { width: 100%; height: auto; display: block; max-height: 420px; }
+.dg-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.dg-legend li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: center; padding: 3px 4px; border-radius: 6px; cursor: pointer; line-height: 1.3; }
+.dg-legend li:hover { background: var(--bg-2); }
+.dg-legend b { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--panel); font-family: var(--f-mono); font-size: 11px; display: grid; place-items: center; }
+.dg-cap { margin: 10px 0 0; font-size: 14.5px; color: var(--ink); line-height: 1.55; }
+.dg-stroke { position: relative; margin: 2px 0 2px; text-align: center; font-size: 13px; font-weight: 700; height: 20px; }
+.dg-stroke span { position: absolute; left: 0; right: 0; }
+.dg-sc { color: var(--bad); animation: dgShowA 4s infinite; }
+.dg-se { color: var(--signal); animation: dgShowB 4s infinite; }
+@media (max-width: 560px) { .dg-body { grid-template-columns: 1fr; } }
+/* drawing styles */
+.dg-svg .dg-lead { stroke: var(--ink); stroke-width: 1; fill: none; opacity: .6; }
+.dg-svg .dg-dot { fill: var(--accent); }
+.dg-svg .dg-badge { fill: var(--ink); stroke: var(--panel); stroke-width: 2; }
+.dg-svg .dg-bt { fill: var(--panel); font-family: var(--f-mono); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.dg-svg .dg-m.on .dg-badge { fill: var(--accent); } .dg-svg .dg-m.on .dg-lead { stroke: var(--accent); opacity: 1; stroke-width: 2; } .dg-svg .dg-m.on .dg-dot { r: 5; }
+.dg-svg .dg-metal { fill: #a9b2bb; stroke: #5d6670; stroke-width: 1.2; }
+.dg-svg .dg-metal-o { fill: none; stroke: #6c7681; stroke-width: 3; }
+.dg-svg .dg-tube { fill: none; stroke: #8a949e; stroke-width: 2; }
+.dg-svg .dg-ring { fill: none; stroke: #6c7681; stroke-width: 7; }
+.dg-svg .dg-dark { fill: #2b2f34; }
+.dg-svg .dg-chrome { fill: #e3e8ed; stroke: #8a949e; stroke-width: 1; }
+.dg-svg .dg-brass { fill: #d6aa3c; stroke: #8c6a1a; stroke-width: 1; }
+.dg-svg .dg-hole { fill: #3a2a10; }
+.dg-svg .dg-oil, .dg-svg .dg-oil2 { fill: #e39b2a; fill-opacity: .55; }
+.dg-svg .dg-gas { fill: #8fd0ff; fill-opacity: .65; }
+.dg-svg .dg-dust { fill: #2f4a3b; fill-opacity: .22; stroke: #2f4a3b; stroke-width: 3; }
+.dg-svg .dg-arrow { fill: none; stroke: var(--bad); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.dg-svg .dg-flow-e .dg-arrow { stroke: var(--signal); }
+.dg-svg .dg-rubber { fill: #34373c; }
+.dg-svg .dg-pu { fill: #e9b31a; stroke: #9b7406; }
+.dg-svg .dg-pu2 { fill: #e07a2a; stroke: #8e4510; }
+.dg-svg .dg-ball { fill: #dfe4e9; stroke: #7d8791; stroke-width: 1.2; }
+.dg-svg .dg-spring { fill: none; stroke: #d0302a; stroke-width: 5; stroke-linejoin: round; }
+.dg-svg .dg-spring2 { fill: none; stroke: #2a62d0; stroke-width: 5; stroke-linejoin: round; }
+.dg-svg .dg-blue { fill: #1d62c4; }
+.dg-svg .dg-violet { fill: #8a6bd1; }
+.dg-svg .dg-knuckle { fill: #b9cfe2; stroke: #6f8aa3; stroke-width: 1.5; }
+.dg-svg .dg-bore { fill: #4e7ea8; stroke: #2e5677; stroke-width: 2; }
+.dg-svg .dg-arm { fill: #e8c64a; stroke: #9b7d14; stroke-width: 1.5; }
+.dg-svg .dg-armbar { stroke: #e8c64a; stroke-width: 22; stroke-linecap: round; fill: none; }
+.dg-svg .dg-armbar2 { stroke: #e8c64a; stroke-width: 14; stroke-linecap: round; fill: none; }
+.dg-svg .dg-green { fill: #2ea85a; stroke: #17663a; stroke-width: 1.5; }
+.dg-svg .dg-boltl { stroke: #6c7681; stroke-width: 4; fill: none; }
+.dg-svg .dg-spoke { stroke: #6f747a; stroke-width: 2; }
+.dg-svg .dg-mark { stroke: var(--accent); stroke-width: 4; }
+.dg-svg .dg-white { fill: #f3f1ea; stroke: #b9b4a5; }
+.dg-svg .dg-wearl { fill: none; stroke: var(--bad); stroke-width: 3; stroke-dasharray: 5 4; }
+.dg-svg .dg-thread { stroke: #6c7681; stroke-width: 2; }
+.dg-svg .dg-frame { fill: #9aa3ad; stroke: #66707a; stroke-width: 1.5; }
+.dg-svg .dg-bush { fill: #3a8ad8; stroke: #1d5a96; stroke-width: 2; }
+.dg-svg .dg-tyre { fill: #1f2226; }
+.dg-svg .dg-arrowr { stroke: var(--bad); stroke-width: 3; }
+.dg-svg .dg-axlebar { stroke: #b9c1c9; stroke-width: 16; stroke-linecap: round; }
+.dg-svg .dg-shockl { stroke: #e3e8ed; stroke-width: 10; stroke-linecap: round; }
+.dg-svg .dg-panhard { stroke: #4a4f55; stroke-width: 7; stroke-linecap: round; }
+.dg-svg .dg-arbl { stroke: #222; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.dg-svg .dg-strutrod { stroke: #6c7681; stroke-width: 9; stroke-linecap: round; }
+.dg-svg .dg-arrow2 { stroke: var(--ink-2); stroke-width: 3; fill: none; }
+/* animations */
+.dg-svg .dg-move { animation: dgStroke 4s ease-in-out infinite; }
+.dg-svg .dg-flow-c { animation: dgShowA 4s infinite; }
+.dg-svg .dg-flow-e { animation: dgShowB 4s infinite; }
+.dg-svg .dg-float { animation: dgFloat 4s ease-in-out infinite; }
+.dg-svg .dg-gasbox { transform-origin: 150px 418px; animation: dgGas 4s ease-in-out infinite; }
+.dga-explode .dg-ex { animation: dgEx 4.5s ease-in-out infinite; }
+.dga-explode .dg-exx { animation-name: dgExX; }
+.dg-svg .dg-inner { transform-origin: 110px 120px; animation: dgTwist 3s ease-in-out infinite; }
+.dg-svg .dg-spokes { transform-origin: 110px 120px; animation: dgTwistH 3s ease-in-out infinite; }
+.dg-svg .dg-stud { transform-origin: 150px 110px; animation: dgSwing 3.2s ease-in-out infinite; }
+.dg-svg .dg-armg { transform-origin: 74px 236px; animation: dgArm 3s ease-in-out infinite; }
+.dg-svg .dg-wheelg { animation: dgWheel 3s ease-in-out infinite; }
+.dg-svg .dg-sprg { transform-origin: 205px 48px; animation: dgSpr 3s ease-in-out infinite; }
+@keyframes dgStroke { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(26px); } }
+@keyframes dgShowA { 0%, 4% { opacity: 0; } 8%, 44% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes dgShowB { 0%, 54% { opacity: 0; } 58%, 94% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes dgFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+@keyframes dgGas { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.875); } }
+@keyframes dgEx { 0%, 100% { transform: translateY(calc(var(--k) * 4px)); } 50% { transform: translateY(0); } }
+@keyframes dgExX { 0%, 100% { transform: translateX(calc(var(--k) * 4px)); } 50% { transform: translateX(0); } }
+@keyframes dgTwist { 0%, 100% { transform: rotate(-22deg); } 50% { transform: rotate(22deg); } }
+@keyframes dgTwistH { 0%, 100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }
+@keyframes dgSwing { 0%, 100% { transform: rotate(-16deg); } 50% { transform: rotate(16deg); } }
+@keyframes dgArm { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-7.5deg); } }
+@keyframes dgWheel { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-23px); } }
+@keyframes dgSpr { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.85); } }
+@media (prefers-reduced-motion: reduce) { .dg-svg *, .dg-stroke span { animation: none !important; } .dg-se { display: none; } }
