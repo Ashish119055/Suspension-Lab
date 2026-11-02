@@ -34,16 +34,16 @@ const THEORY_SVG = {
     <g class="th-drops"><circle cx="116" cy="120" r="3" class="th-drop"/><circle cx="144" cy="130" r="3" class="th-drop"/><circle cx="130" cy="84" r="3" class="th-drop th-drop2"/></g>
     <text x="180" y="110" class="th-t">↕</text>
   </svg>`,
-  axles: `<svg viewBox="0 0 320 170" class="th-svg" aria-hidden="true">
+  axles: `<svg viewBox="0 0 320 175" class="th-svg" aria-hidden="true">
     <text x="80" y="16" class="th-t th-tc">1</text><text x="240" y="16" class="th-t th-tc">2</text>
-    <g><path class="th-road" d="M10 150 H150"/><path class="th-road" d="M10 150 H40 q18 -24 36 0" />
-      <rect x="40" y="40" width="80" height="22" rx="5" class="th-body"/>
-      <g class="th-indep"><rect x="22" y="92" width="16" height="50" rx="5" class="th-tyre"/></g><rect x="122" y="100" width="16" height="50" rx="5" class="th-tyre"/>
-      <path d="M40 62 L30 92 M120 62 L130 100" class="th-link"/></g>
-    <g><path class="th-road" d="M170 150 H310"/>
-      <rect x="200" y="40" width="80" height="22" rx="5" class="th-body"/>
-      <g class="th-rigid"><rect x="182" y="100" width="16" height="50" rx="5" class="th-tyre"/><rect x="282" y="100" width="16" height="50" rx="5" class="th-tyre"/><path d="M198 125 H282" class="th-axle"/></g>
-      <path d="M215 62 V112 M265 62 V112" class="th-link"/></g>
+    <g><path class="th-road" d="M8 150 H152"/><path class="th-ax-bump" d="M12 150 C16 121 44 121 48 150 Z"/>
+      <rect x="20" y="40" width="120" height="22" rx="5" class="th-body"/>
+      <path class="th-spring th-ax-sprI" d="M30 62 L37 65.2 L23 68.3 L37 71.5 L23 74.7 L37 77.8 L23 81.0 L37 84.2 L23 87.3 L37 90.5 L23 93.7 L37 96.8 L30 100"/><path class="th-spring" d="M130 62 L137 65.2 L123 68.3 L137 71.5 L123 74.7 L137 77.8 L123 81.0 L137 84.2 L123 87.3 L137 90.5 L123 93.7 L137 96.8 L130 100"/>
+      <g class="th-ax-up"><rect x="22" y="100" width="16" height="50" rx="5" class="th-tyre"/></g><rect x="122" y="100" width="16" height="50" rx="5" class="th-tyre"/></g>
+    <g><path class="th-road" d="M168 150 H312"/><path class="th-ax-bump" d="M172 150 C176 121 204 121 208 150 Z"/>
+      <rect x="180" y="40" width="120" height="22" rx="5" class="th-body"/>
+      <path class="th-spring th-ax-sprL" d="M215 62 L222 66.8 L208 71.7 L222 76.5 L208 81.3 L222 86.2 L208 91.0 L222 95.8 L208 100.7 L222 105.5 L208 110.3 L222 115.2 L215 120"/><path class="th-spring th-ax-sprR" d="M265 62 L272 66.8 L258 71.7 L272 76.5 L258 81.3 L272 86.2 L258 91.0 L272 95.8 L258 100.7 L272 105.5 L258 110.3 L272 115.2 L265 120"/>
+      <g class="th-ax-tilt"><rect x="182" y="100" width="16" height="50" rx="5" class="th-tyre"/><rect x="282" y="100" width="16" height="50" rx="5" class="th-tyre"/><path d="M198 123 H282" class="th-axle"/></g></g>
   </svg>`,
   align: `<svg viewBox="0 0 330 160" class="th-svg" aria-hidden="true">
     <g><text x="55" y="16" class="th-t th-tc">{CAMBER}</text><path class="th-road" d="M10 140 H100"/><path d="M55 30 V140" class="th-dim"/>
