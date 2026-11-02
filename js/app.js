@@ -32,6 +32,7 @@
     $('#stTitle').textContent = sysName(state.sys); $('#stAxle').textContent = sysAxle(state.sys);
     Bench.refreshLabels();
     renderProc(); renderBom(); renderSys(); renderCompare(); renderTheory(); renderDiagrams();
+    if (window.Dash) Dash.render(); if (window.Lab && Lab.S) Lab.build(); if (window.Mcq) Mcq.render();
     if (Bench.st.selected) openDrawer(Bench.st.selected);
     if (how.on) showScene();
     refreshCharts();
@@ -61,7 +62,9 @@
   }
   function buildSysbarLabels() { SYSTEMS.forEach((s) => { const c = document.querySelector(`.sys-card[data-sys="${s.id}"]`); if (c) { c.querySelector('b').textContent = sysName(s); c.querySelector('small').textContent = sysAxle(s); } }); }
 
+  window.sysNameFor = (s) => sysName(s);
   function setSystem(id) {
+    if (window.Dash) Dash.setSys(id);
     const def = SYS_BY_ID[id] || SYSTEMS[0];
     howStop();
     state.sys = def; state.step = 0; state.exploded = false; stopPlay(); store.set('sys', def.id);
@@ -397,7 +400,7 @@
 
   /* ── routing ── */
   function route() {
-    const v = (location.hash || '#bench').slice(1); const view = ['bench', 'diagram', 'theory', 'compare'].includes(v) ? v : 'bench';
+    const v = (location.hash || '#bench').slice(1); const view = ['bench', 'diagram', 'theory', 'compare', 'dash', 'test', 'mcq'].includes(v) ? v : 'bench';
     if (view !== 'bench') howStop();
     const prev = state.view; state.view = view;
     const sec = view === 'diagram' ? 'bench' : view;
@@ -405,6 +408,10 @@
     if (view === 'diagram' && Bench.built) enterDiagram();
     if (prev === 'diagram' && view !== 'diagram') leaveDiagram();
     if (view === 'theory') window.scrollTo(0, 0);
+    if (window.Dash) Dash.show(view === 'dash');
+    if (view === 'test' && window.Lab && !document.querySelector('#txSide')) Lab.build();
+    if (view === 'mcq' && window.Mcq && !document.querySelector('#view-mcq').innerHTML) Mcq.render();
+    if (['dash', 'test', 'mcq'].includes(view)) window.scrollTo(0, 0);
     document.querySelectorAll('.tabs a').forEach((a) => a.classList.toggle('on', a.dataset.view === view));
     refreshCharts();
   }
@@ -424,4 +431,6 @@
   setLang(store.get('lang') || 'en');
   route();
   window.SuspLab = { setSystem, go, state, setLang, howStart, howStop, toggleFull };
+  if (window.parent !== window) { let lastH = 0; const send = () => { const h = Math.ceil(document.documentElement.scrollHeight); if (Math.abs(h - lastH) > 4) { lastH = h; try { window.parent.postMessage({ dmHeight: h }, '*'); } catch (e) { /* ignore */ } } };
+    try { new ResizeObserver(send).observe(document.body); } catch (e) { setInterval(send, 800); } window.addEventListener('load', send); document.addEventListener('click', () => setTimeout(send, 350)); }
 })();

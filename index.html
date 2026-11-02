@@ -39,6 +39,9 @@
   <a href="#diagram" data-view="diagram" data-i18n="tab_diagram">Diagram</a>
   <a href="#theory" data-view="theory" data-i18n="tab_theory">Theory</a>
   <a href="#compare" data-view="compare" data-i18n="tab_cmp">Compare systems</a>
+  <a href="#dash" data-view="dash" data-i18n="tab_dash">📊 Dashboard</a>
+  <a href="#test" data-view="test" data-i18n="tab_test">🧪 Testing lab</a>
+  <a href="#mcq" data-view="mcq" data-i18n="tab_mcq">📝 MCQ</a>
 </nav>
 
 <div class="sysbar" role="radiogroup" aria-label="Suspension system" id="sysbar"></div>
@@ -126,9 +129,13 @@
     <div class="cmp-cards" id="cmpCards"></div>
     <div class="panel scroll-x cmp-wide"><table class="cmp" id="cmpRatings"></table></div>
   </section>
+  <!-- DASHBOARD / TESTING / MCQ (js/lab-dash.js, js/lab-test.js) -->
+  <section class="view" id="view-dash" hidden></section>
+  <section class="view" id="view-test" hidden></section>
+  <section class="view" id="view-mcq" hidden></section>
 </main>
 
-<footer class="foot">Values are typical figures for training and comparison. Always use the manufacturer's workshop manual, torque specifications and safety procedures for a specific vehicle.</footer>
+<footer class="foot"><b>Govt ITI Maninagar · <a href="https://itilabgujarati.blogspot.com" target="_blank" rel="noopener">itilabgujarati.blogspot.com</a> · @ashish_9978</b><br>Values are typical figures for training and comparison. Always use the manufacturer's workshop manual, torque specifications and safety procedures for a specific vehicle.</footer>
 <!--APP-END-->
 
 <script src="js/vendor/three.min.js"></script>
@@ -140,6 +147,8 @@
 <script src="js/bench.js"></script>
 <script src="js/theory.js"></script>
 <script src="js/diagrams.js"></script>
+<script src="js/lab-dash.js"></script>
+<script src="js/lab-test.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

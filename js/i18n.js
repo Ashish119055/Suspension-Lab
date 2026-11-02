@@ -6,6 +6,7 @@ const LANGS = [['en', 'EN'], ['gu', 'ગુજ'], ['hi', 'हिं']];
 
 const UI = {
   en: {
+    tab_dash: '📊 Dashboard', tab_test: '🧪 Testing lab', tab_mcq: '📝 MCQ',
     brand: 'Suspension Lab', brand_sub: '3D tear-down practice — learn how a suspension works', diag_lede: 'Every part pulled apart and numbered.',
     tab_diagram: 'Diagram', tab_theory: 'Theory', tb_body: 'Body', tb_car: 'Car view', drive: 'Drive', diagram_hint: 'Exploded diagram — every part is pulled apart and named. Tap a name to learn about the part.',
     theory_title: 'How a suspension works', theory_lede: 'Simple explanations with moving pictures. Read them in order, then open the bench and take a real system apart.',
@@ -35,6 +36,7 @@ const UI = {
     run: 'Run', theory_note: 'Theory notes are in English.', lang: 'Language', tap_details: 'Details ↓'
   },
   gu: {
+    tab_dash: '📊 ડેશબોર્ડ', tab_test: '🧪 ટેસ્ટિંગ લેબ', tab_mcq: '📝 MCQ',
     brand: 'સસ્પેન્શન લેબ', brand_sub: '3D ખોલવાની પ્રેક્ટિસ — સસ્પેન્શન કેવી રીતે કામ કરે છે તે શીખો', diag_lede: 'દરેક ભાગ છૂટો કરીને નંબર આપ્યો છે.',
     tab_diagram: 'આકૃતિ', tab_theory: 'થિયરી', tb_body: 'બૉડી', tb_car: 'આખી ગાડી', drive: 'ચલાવો', diagram_hint: 'છૂટા ભાગની આકૃતિ — દરેક ભાગ અલગ કરીને તેનું નામ લખ્યું છે. ભાગ વિશે જાણવા નામ પર ટચ કરો.',
     theory_title: 'સસ્પેન્શન કેવી રીતે કામ કરે છે', theory_lede: 'હલતી આકૃતિઓ સાથે સરળ સમજૂતી. ક્રમમાં વાંચો, પછી બેન્ચ પર જઈને સાચી સિસ્ટમ ખોલીને જુઓ.',
@@ -64,6 +66,7 @@ const UI = {
     run: 'ચલાવો', theory_note: 'થિયરી નોંધ અંગ્રેજીમાં છે.', lang: 'ભાષા', tap_details: 'વિગત ↓'
   },
   hi: {
+    tab_dash: '📊 डैशबोर्ड', tab_test: '🧪 टेस्टिंग लैब', tab_mcq: '📝 MCQ',
     brand: 'सस्पेंशन लैब', brand_sub: '3D खोलने की प्रैक्टिस — सस्पेंशन कैसे काम करता है यह सीखें', diag_lede: 'हर पार्ट अलग करके नंबर दिया है.',
     tab_diagram: 'आकृति', tab_theory: 'थ्योरी', tb_body: 'बॉडी', tb_car: 'पूरी गाड़ी', drive: 'चलाएँ', diagram_hint: 'अलग पार्ट की आकृति — हर पार्ट अलग करके उसका नाम लिखा है. पार्ट के बारे में जानने के लिए नाम को टच करें.',
     theory_title: 'सस्पेंशन कैसे काम करता है', theory_lede: 'चलती आकृतियों के साथ आसान समझ. क्रम से पढ़ें, फिर बेंच पर जाकर असली सिस्टम खोलकर देखें.',
