@@ -380,7 +380,30 @@
   }
 
   /* ── theory ── */
+  function thBlock([k, v]) {
+    if (k === 'p') return `<p>${esc(v)}</p>`;
+    if (k === 'h') return `<h3 class="th-h3">${esc(v)}</h3>`;
+    if (k === 'eq') return `<div class="th-eq">${esc(v)}</div>`;
+    if (k === 'tip') return `<div class="th-note th-tip"><b>💡</b><span>${esc(v)}</span></div>`;
+    if (k === 'ex') return `<div class="th-note th-ex"><b>✏️</b><span>${esc(v)}</span></div>`;
+    if (k === 'li') return `<ul>${v.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    if (k === 'tbl') return `<div class="scroll-x"><table class="th-table"><thead><tr>${v[0].map((x) => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${v[1].map((r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    if (k === 'go') return `<a class="btn th-go" href="${v[0]}">${esc(v[1])}</a>`;
+    return '';
+  }
   function renderTheory() {
+    const B = window.THEORY_BLOCKS && (THEORY_BLOCKS[LANG] || THEORY_BLOCKS.en);
+    if (B) {
+      const fig = (s) => s.svg ? `<div class="th-fig">${THEORY_SVG[s.svg].replace(/\{(\w+)\}/g, (m, k) => (THEORY_SVG_TX[LANG] || THEORY_SVG_TX.en)[k] || '')}</div>` : '';
+      $('#thToc').innerHTML = B.map((s, i) => `<a href="#theory" data-th="${s.id}">${i + 1}. ${esc(s.h)}</a>`).join('');
+      $('#thList').innerHTML = B.map((s, i) => `<article class="panel th-card th-long ${s.svg ? '' : 'nosvg'}" id="th-${s.id}">
+        <div class="th-body"><h2><span>${String(i + 1).padStart(2, '0')}</span>${esc(s.h)}</h2>${s.blocks.map(thBlock).join('')}
+        ${i + 1 < B.length ? `<a class="th-next" href="#theory" data-th="${B[i + 1].id}">${esc((UI[LANG] || UI.en).th_next || 'Next')} → ${i + 2}. ${esc(B[i + 1].h)}</a>` : ''}</div>
+        ${fig(s)}
+      </article>`).join('');
+      document.querySelectorAll('#thToc [data-th], #thList .th-next').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('th-' + el.dataset.th).scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+      return;
+    }
     const list = THEORY[LANG] || THEORY.en; const head = THEORY_HEAD[LANG] || THEORY_HEAD.en;
     $('#thToc').innerHTML = list.map((s, i) => `<a href="#theory" data-th="${s.id}">${i + 1}. ${esc(s.h)}</a>`).join('');
     $('#thList').innerHTML = list.map((s, i) => `<article class="panel th-card ${s.svg ? '' : 'nosvg'}" id="th-${s.id}">

@@ -659,7 +659,7 @@ body.diagram-mode .dg-wrap { display: block; }
 
 /* independent vs rigid axle (theory): the bump rises under the left wheel; independent — only that wheel lifts and its spring
    compresses; rigid — the whole axle pivots about the right tyre's contact point, so both wheels lean */
-.th-svg .th-spring { fill: none; stroke: #c81e1e; stroke-width: 2.4; stroke-linejoin: round; }
+.th-svg .th-axspr { fill: none; stroke: #c81e1e; stroke-width: 2.4; stroke-linejoin: round; }
 .th-svg .th-ax-bump { fill: var(--ink-2); transform-box: fill-box; transform-origin: 50% 100%; animation: thAxBump 2.4s ease-in-out infinite; }
 .th-svg .th-ax-up { animation: thAxUp 2.4s ease-in-out infinite; }
 .th-svg .th-ax-sprI, .th-svg .th-ax-sprL, .th-svg .th-ax-sprR { transform-box: fill-box; transform-origin: 50% 0; }
@@ -675,6 +675,26 @@ body.diagram-mode .dg-wrap { display: block; }
 @keyframes thAxSprR { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.91); } }
 @keyframes thAxTilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(12.4deg); } }
 @media (prefers-reduced-motion: reduce) { .th-svg .th-ax-bump { animation: none; transform: none; } .th-svg .th-ax-up { animation: none; transform: translateY(-22px); } .th-svg .th-ax-sprI { animation: none; transform: scaleY(.42); } .th-svg .th-ax-sprL { animation: none; transform: scaleY(.72); } .th-svg .th-ax-sprR { animation: none; transform: scaleY(.91); } .th-svg .th-ax-tilt { animation: none; transform: rotate(12.4deg); } }
+
+/* ── long-form theory lessons ── */
+.th-long { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.th-long.nosvg { grid-template-columns: 1fr; }
+.th-long .th-fig { position: sticky; top: 64px; }
+.th-body > p, .th-body > ul { max-width: 72ch; }
+.th-body > ul { margin: 4px 0 12px; }
+.th-body p { line-height: 1.65; }
+.th-body li { line-height: 1.55; }
+.th-h3 { font-size: 17px; margin: 16px 0 6px; color: var(--ink); padding-left: 10px; border-left: 3px solid var(--accent); }
+.th-note { display: flex; gap: 10px; align-items: flex-start; border-radius: 8px; padding: 10px 14px; margin: 10px 0 12px; font-size: 15px; line-height: 1.55; max-width: 72ch; border: 1px solid var(--line); }
+.th-note b { flex: none; font-size: 17px; line-height: 1.3; }
+.th-tip { background: color-mix(in srgb, var(--accent) 10%, var(--panel)); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.th-ex { background: color-mix(in srgb, var(--ok) 10%, var(--panel)); border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.th-body .th-table { margin: 6px 0 12px; }
+.th-body .th-table td:first-child { font-weight: 600; }
+.th-go { display: inline-flex; margin: 6px 8px 4px 0; text-decoration: none; }
+.th-next { display: block; margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.th-next:hover { text-decoration: underline; }
+@media (max-width: 760px) { .th-long .th-fig { position: static; } .th-eq { font-size: 17px; } }
 
 </style>
 </head>
@@ -1247,7 +1267,7 @@ const UI = {
     tab_dash: '📊 Dashboard', tab_test: '🧪 Testing lab', tab_mcq: '📝 MCQ',
     brand: 'Suspension Lab', brand_sub: '3D tear-down practice — learn how a suspension works', diag_lede: 'Every part pulled apart and numbered.',
     tab_diagram: 'Diagram', tab_theory: 'Theory', tb_body: 'Body', tb_car: 'Car view', drive: 'Drive', diagram_hint: 'Exploded diagram — every part is pulled apart and named. Tap a name to learn about the part.',
-    theory_title: 'How a suspension works', theory_lede: 'Simple explanations with moving pictures. Read them in order, then open the bench and take a real system apart.',
+    th_next: 'Next lesson', theory_title: 'How a suspension works', theory_lede: 'Simple explanations with moving pictures. Read them in order, then open the bench and take a real system apart.',
     tab_bench: 'Tear-down bench', tab_kin: 'Kinematics', tab_dyn: 'Ride dynamics', tab_cmp: 'Compare systems',
     tb_explode: 'Explode', tb_section: 'Section', tb_labels: 'Numbers', tb_isolate: 'Isolate', tb_tray: 'Tray', tb_rotate: 'Rotate', tb_view: 'View', tb_full: 'Full screen', tb_exitfull: 'Exit',
     travel: 'Wheel travel', bounce: 'Bounce', rebound_bump: 'rebound ← → bump', locked: 'locked — parts removed',
@@ -1277,7 +1297,7 @@ const UI = {
     tab_dash: '📊 ડેશબોર્ડ', tab_test: '🧪 ટેસ્ટિંગ લેબ', tab_mcq: '📝 MCQ',
     brand: 'સસ્પેન્શન લેબ', brand_sub: '3D ખોલવાની પ્રેક્ટિસ — સસ્પેન્શન કેવી રીતે કામ કરે છે તે શીખો', diag_lede: 'દરેક ભાગ છૂટો કરીને નંબર આપ્યો છે.',
     tab_diagram: 'આકૃતિ', tab_theory: 'થિયરી', tb_body: 'બૉડી', tb_car: 'આખી ગાડી', drive: 'ચલાવો', diagram_hint: 'છૂટા ભાગની આકૃતિ — દરેક ભાગ અલગ કરીને તેનું નામ લખ્યું છે. ભાગ વિશે જાણવા નામ પર ટચ કરો.',
-    theory_title: 'સસ્પેન્શન કેવી રીતે કામ કરે છે', theory_lede: 'હલતી આકૃતિઓ સાથે સરળ સમજૂતી. ક્રમમાં વાંચો, પછી બેન્ચ પર જઈને સાચી સિસ્ટમ ખોલીને જુઓ.',
+    th_next: 'આગળનો પાઠ', theory_title: 'સસ્પેન્શન કેવી રીતે કામ કરે છે', theory_lede: 'હલતી આકૃતિઓ સાથે સરળ સમજૂતી. ક્રમમાં વાંચો, પછી બેન્ચ પર જઈને સાચી સિસ્ટમ ખોલીને જુઓ.',
     tab_bench: 'ખોલવાનો બેન્ચ', tab_kin: 'કાઇનેમેટિક્સ', tab_dyn: 'રાઇડ ડાયનેમિક્સ', tab_cmp: 'સરખામણી',
     tb_explode: 'છૂટા ભાગ', tb_section: 'કટ સેક્શન', tb_labels: 'નંબર', tb_isolate: 'એકલો ભાગ', tb_tray: 'ટ્રે', tb_rotate: 'ફેરવો', tb_view: 'વ્યૂ', tb_full: 'ફુલ સ્ક્રીન', tb_exitfull: 'બહાર',
     travel: 'વ્હીલ ટ્રાવેલ', bounce: 'ઉછાળો', rebound_bump: 'નીચે (રિબાઉન્ડ) ← → ઉપર (બમ્પ)', locked: 'લૉક — ભાગ ખોલેલા છે',
@@ -1307,7 +1327,7 @@ const UI = {
     tab_dash: '📊 डैशबोर्ड', tab_test: '🧪 टेस्टिंग लैब', tab_mcq: '📝 MCQ',
     brand: 'सस्पेंशन लैब', brand_sub: '3D खोलने की प्रैक्टिस — सस्पेंशन कैसे काम करता है यह सीखें', diag_lede: 'हर पार्ट अलग करके नंबर दिया है.',
     tab_diagram: 'आकृति', tab_theory: 'थ्योरी', tb_body: 'बॉडी', tb_car: 'पूरी गाड़ी', drive: 'चलाएँ', diagram_hint: 'अलग पार्ट की आकृति — हर पार्ट अलग करके उसका नाम लिखा है. पार्ट के बारे में जानने के लिए नाम को टच करें.',
-    theory_title: 'सस्पेंशन कैसे काम करता है', theory_lede: 'चलती आकृतियों के साथ आसान समझ. क्रम से पढ़ें, फिर बेंच पर जाकर असली सिस्टम खोलकर देखें.',
+    th_next: 'अगला पाठ', theory_title: 'सस्पेंशन कैसे काम करता है', theory_lede: 'चलती आकृतियों के साथ आसान समझ. क्रम से पढ़ें, फिर बेंच पर जाकर असली सिस्टम खोलकर देखें.',
     tab_bench: 'खोलने की बेंच', tab_kin: 'काइनेमेटिक्स', tab_dyn: 'राइड डायनेमिक्स', tab_cmp: 'तुलना',
     tb_explode: 'अलग पार्ट', tb_section: 'कट सेक्शन', tb_labels: 'नंबर', tb_isolate: 'एक पार्ट', tb_tray: 'ट्रे', tb_rotate: 'घुमाएँ', tb_view: 'व्यू', tb_full: 'फुल स्क्रीन', tb_exitfull: 'बाहर',
     travel: 'व्हील ट्रैवल', bounce: 'उछाल', rebound_bump: 'नीचे (रिबाउंड) ← → ऊपर (बम्प)', locked: 'लॉक — पार्ट खुले हैं',
@@ -3427,11 +3447,11 @@ const THEORY_SVG = {
     <text x="80" y="16" class="th-t th-tc">1</text><text x="240" y="16" class="th-t th-tc">2</text>
     <g><path class="th-road" d="M8 150 H152"/><path class="th-ax-bump" d="M12 150 C16 121 44 121 48 150 Z"/>
       <rect x="20" y="40" width="120" height="22" rx="5" class="th-body"/>
-      <path class="th-spring th-ax-sprI" d="M30 62 L37 65.2 L23 68.3 L37 71.5 L23 74.7 L37 77.8 L23 81.0 L37 84.2 L23 87.3 L37 90.5 L23 93.7 L37 96.8 L30 100"/><path class="th-spring" d="M130 62 L137 65.2 L123 68.3 L137 71.5 L123 74.7 L137 77.8 L123 81.0 L137 84.2 L123 87.3 L137 90.5 L123 93.7 L137 96.8 L130 100"/>
+      <path class="th-axspr th-ax-sprI" d="M30 62 L37 65.2 L23 68.3 L37 71.5 L23 74.7 L37 77.8 L23 81.0 L37 84.2 L23 87.3 L37 90.5 L23 93.7 L37 96.8 L30 100"/><path class="th-axspr" d="M130 62 L137 65.2 L123 68.3 L137 71.5 L123 74.7 L137 77.8 L123 81.0 L137 84.2 L123 87.3 L137 90.5 L123 93.7 L137 96.8 L130 100"/>
       <g class="th-ax-up"><rect x="22" y="100" width="16" height="50" rx="5" class="th-tyre"/></g><rect x="122" y="100" width="16" height="50" rx="5" class="th-tyre"/></g>
     <g><path class="th-road" d="M168 150 H312"/><path class="th-ax-bump" d="M172 150 C176 121 204 121 208 150 Z"/>
       <rect x="180" y="40" width="120" height="22" rx="5" class="th-body"/>
-      <path class="th-spring th-ax-sprL" d="M215 62 L222 66.8 L208 71.7 L222 76.5 L208 81.3 L222 86.2 L208 91.0 L222 95.8 L208 100.7 L222 105.5 L208 110.3 L222 115.2 L215 120"/><path class="th-spring th-ax-sprR" d="M265 62 L272 66.8 L258 71.7 L272 76.5 L258 81.3 L272 86.2 L258 91.0 L272 95.8 L258 100.7 L272 105.5 L258 110.3 L272 115.2 L265 120"/>
+      <path class="th-axspr th-ax-sprL" d="M215 62 L222 66.8 L208 71.7 L222 76.5 L208 81.3 L222 86.2 L208 91.0 L222 95.8 L208 100.7 L222 105.5 L208 110.3 L222 115.2 L215 120"/><path class="th-axspr th-ax-sprR" d="M265 62 L272 66.8 L258 71.7 L272 76.5 L258 81.3 L272 86.2 L258 91.0 L272 95.8 L258 100.7 L272 105.5 L258 110.3 L272 115.2 L265 120"/>
       <g class="th-ax-tilt"><rect x="182" y="100" width="16" height="50" rx="5" class="th-tyre"/><rect x="282" y="100" width="16" height="50" rx="5" class="th-tyre"/><path d="M198 123 H282" class="th-axle"/></g></g>
   </svg>`,
   align: `<svg viewBox="0 0 330 160" class="th-svg" aria-hidden="true">
@@ -3522,6 +3542,255 @@ const THEORY = {
 const THEORY_HEAD = { en: ['Symptom', 'Likely cause'], gu: ['લક્ષણ', 'સંભવિત કારણ'], hi: ['लक्षण', 'संभावित कारण'] };
 
 const THEORY_SVG_TX = { en: { CAMBER: 'Camber', CASTER: 'Caster', TOE: 'Toe-in' }, gu: { CAMBER: 'કૅમ્બર', CASTER: 'કૅસ્ટર', TOE: 'ટો-ઇન' }, hi: { CAMBER: 'कैम्बर', CASTER: 'कैस्टर', TOE: 'टो-इन' } };
+
+</script>
+<script>
+/* Suspension Lab — Theory text: 13 lessons in simple language, each leading into the next.
+   Every text is a triple [English, Gujarati, Hindi]. Block kinds:
+   p = paragraph · h = small heading · li = list · eq = formula · tip = "remember" box · ex = worked example / everyday example
+   · tbl = table [head, rows] · go = link to another tab [hash, label]. Builds THEORY[lang] for the renderer. */
+'use strict';
+
+const TH_SRC = [
+  { id: 'jobs', svg: 'jobs', h: ["What does a suspension do?", "સસ્પેન્શન શું કામ કરે છે?", "सस्पेंशन क्या काम करता है?"], b: [
+    ['p', ["No road is perfectly flat. There are bumps, potholes, speed breakers and small waves everywhere. If the wheels were bolted straight to the body, every bump would hit the passengers, the load would jump and the tyres would leave the road for a moment. The suspension is the set of parts between the wheels and the body that solves this.",
+      "કોઈ રોડ સંપૂર્ણ સપાટ નથી હોતો. દરેક જગ્યાએ ખાડા, બમ્પ, સ્પીડ બ્રેકર અને નાની લહેરો હોય છે. જો વ્હીલ સીધા બોડી સાથે બોલ્ટ કર્યા હોત, તો દરેક ઝટકો મુસાફરોને લાગત, સામાન ઉછળત અને ટાયર થોડી ક્ષણ માટે રોડ છોડી દેત. વ્હીલ અને બોડીની વચ્ચે આવેલા જે ભાગ આ સમસ્યા ઉકેલે, તેને સસ્પેન્શન કહેવાય.",
+      "कोई सड़क पूरी तरह सपाट नहीं होती. हर जगह गड्ढे, बम्प, स्पीड ब्रेकर और छोटी लहरें होती हैं. अगर पहिये सीधे बॉडी से बोल्ट होते, तो हर झटका यात्रियों को लगता, सामान उछलता और टायर एक पल के लिए सड़क छोड़ देते. पहियों और बॉडी के बीच के जो पार्ट यह समस्या हल करते हैं, उन्हें सस्पेंशन कहते हैं."]],
+    ['h', ["Its four jobs", "તેનાં ચાર કામ", "इसके चार काम"]],
+    ['li', [["Comfort — it lets the wheel move up and down over a bump while the body stays almost still. People and goods are not shaken.", "આરામ — બમ્પ પર વ્હીલ ઉપર-નીચે થાય પણ બોડી લગભગ સ્થિર રહે. મુસાફરો અને સામાનને ઝટકા ન લાગે.", "आराम — बम्प पर पहिया ऊपर-नीचे होता है पर बॉडी लगभग स्थिर रहती है. यात्रियों और सामान को झटके नहीं लगते."],
+      ["Grip (road holding) — it keeps pressing every tyre on the road. A tyre in the air cannot steer, brake or accelerate. This is the most important job for safety.", "ગ્રિપ (રોડ પકડ) — દરેક ટાયરને રોડ પર દબાવી રાખે. હવામાં રહેલું ટાયર સ્ટીયરિંગ, બ્રેક કે એક્સિલરેશન કરી શકે નહીં. સલામતી માટે આ સૌથી મહત્વનું કામ છે.", "ग्रिप (रोड पकड़) — हर टायर को सड़क पर दबाए रखता है. हवा में रहा टायर स्टीयरिंग, ब्रेक या एक्सीलरेशन नहीं कर सकता. सुरक्षा के लिए यह सबसे ज़रूरी काम है."],
+      ["Carry the weight — the springs hold up the body, engine, people and load at the correct height (ride height).", "વજન ઉપાડવું — સ્પ્રિંગ બોડી, એન્જિન, મુસાફરો અને સામાનને સાચી ઊંચાઈએ (રાઇડ હાઇટ) ટકાવી રાખે.", "वज़न उठाना — स्प्रिंग बॉडी, इंजन, यात्रियों और सामान को सही ऊँचाई (राइड हाइट) पर टिकाए रखती है."],
+      ["Hold the wheel in the right position — while the wheel moves up and down, its angles (camber, toe) must stay correct, otherwise the car pulls and tyres wear.", "વ્હીલને સાચી સ્થિતિમાં રાખવું — વ્હીલ ઉપર-નીચે થાય ત્યારે પણ તેના ખૂણા (કૅમ્બર, ટો) સાચા રહેવા જોઈએ, નહીં તો ગાડી ખેંચાય અને ટાયર ઘસાય.", "पहिये को सही स्थिति में रखना — पहिया ऊपर-नीचे हो तब भी उसके कोण (कैम्बर, टो) सही रहने चाहिए, वरना गाड़ी खिंचती है और टायर घिसते हैं."]]],
+    ['ex', ["Everyday example: carry a full glass of water while walking. You bend your knees and elbows a little so the water does not spill. Your knees are the 'springs', your muscles that stop the bouncing are the 'dampers', and the glass is the car body.",
+      "રોજિંદું ઉદાહરણ: પાણીથી ભરેલો ગ્લાસ લઈને ચાલો. પાણી ન ઢળે તે માટે તમે ઘૂંટણ અને કોણી થોડા વાળો છો. તમારા ઘૂંટણ 'સ્પ્રિંગ' છે, ઉછળવું રોકતા સ્નાયુ 'ડેમ્પર' છે અને ગ્લાસ એટલે ગાડીની બોડી.",
+      "रोज़ का उदाहरण: पानी से भरा गिलास लेकर चलिए. पानी न छलके इसलिए आप घुटने और कोहनी थोड़ा मोड़ते हैं. आपके घुटने 'स्प्रिंग' हैं, उछलना रोकने वाली मांसपेशियाँ 'डैम्पर' हैं और गिलास गाड़ी की बॉडी है."]],
+    ['tip', ["Remember: comfort and grip pull in opposite directions. A very soft car is comfortable but floats and rolls; a very stiff car grips but is harsh. Every suspension design is a balance between the two — the next lessons show how.",
+      "યાદ રાખો: આરામ અને ગ્રિપ એકબીજાથી ઊલટી દિશામાં ખેંચે. ખૂબ નરમ ગાડી આરામદાયક પણ તરતી અને નમતી લાગે; ખૂબ કડક ગાડી પકડ સારી રાખે પણ ઝટકા આપે. દરેક સસ્પેન્શન આ બે વચ્ચેનું સંતુલન છે — આગળના પાઠમાં કેવી રીતે તે જોઈશું.",
+      "याद रखें: आराम और ग्रिप एक-दूसरे से उल्टी दिशा में खींचते हैं. बहुत नरम गाड़ी आरामदायक पर तैरती और झुकती है; बहुत सख़्त गाड़ी पकड़ अच्छी रखती है पर झटके देती है. हर सस्पेंशन इन दोनों का संतुलन है — आगे के पाठों में देखेंगे कैसे."]] ] },
+
+  { id: 'parts', svg: 'quarter', h: ["The main parts and the path of a bump", "મુખ્ય ભાગ અને ઝટકાનો રસ્તો", "मुख्य पार्ट और झटके का रास्ता"], b: [
+    ['p', ["To do those four jobs, every suspension — from a small hatchback to a truck — uses the same five kinds of parts:", "આ ચાર કામ કરવા માટે, નાની હેચબેકથી લઈને ટ્રક સુધી, દરેક સસ્પેન્શનમાં આ જ પાંચ પ્રકારના ભાગ હોય છે:", "ये चार काम करने के लिए, छोटी हैचबैक से लेकर ट्रक तक, हर सस्पेंशन में यही पाँच तरह के पार्ट होते हैं:"]],
+    ['li', [["Spring — carries the weight and stores the energy of a bump (coil, leaf, torsion bar or air spring).", "સ્પ્રિંગ — વજન ઉપાડે અને ઝટકાની ઊર્જા સંગ્રહ કરે (કોઇલ, લીફ, ટોર્શન બાર કે એર સ્પ્રિંગ).", "स्प्रिंग — वज़न उठाती है और झटके की ऊर्जा जमा करती है (कॉइल, लीफ, टॉर्शन बार या एयर स्प्रिंग)."],
+      ["Shock absorber (damper) — stops the spring from bouncing again and again.", "શૉક એબ્ઝોર્બર (ડેમ્પર) — સ્પ્રિંગને વારંવાર ઉછળતી અટકાવે.", "शॉक एब्ज़ॉर्बर (डैम्पर) — स्प्रिंग को बार-बार उछलने से रोकता है."],
+      ["Arms and links (control arm, wishbone, trailing arm, tie rod) — guide the wheel so it can move only up and down, not forward, backward or sideways.", "આર્મ અને લિંક (કંટ્રોલ આર્મ, વિશબોન, ટ્રેલિંગ આર્મ, ટાઇ રોડ) — વ્હીલને ફક્ત ઉપર-નીચે જવા દે, આગળ-પાછળ કે બાજુમાં નહીં.", "आर्म और लिंक (कंट्रोल आर्म, विशबोन, ट्रेलिंग आर्म, टाई रॉड) — पहिये को सिर्फ़ ऊपर-नीचे जाने देते हैं, आगे-पीछे या बगल में नहीं."],
+      ["Joints — rubber bushes and ball joints are the hinges between the arms, the knuckle and the body. Rubber also stops road noise reaching the cabin.", "જોઇન્ટ — રબર બુશ અને બૉલ જોઇન્ટ આર્મ, નકલ અને બોડી વચ્ચેના મિજાગરા છે. રબર રોડનો અવાજ કેબિન સુધી પહોંચતો પણ અટકાવે.", "जॉइंट — रबर बुश और बॉल जॉइंट आर्म, नकल और बॉडी के बीच के कब्ज़े हैं. रबर सड़क की आवाज़ केबिन तक पहुँचने से भी रोकता है."],
+      ["Anti-roll bar — a twisted steel bar that joins the left and right wheel to reduce leaning in corners (lesson 9).", "એન્ટી-રોલ બાર — ડાબા અને જમણા વ્હીલને જોડતો સ્ટીલનો બાર, વળાંકમાં ગાડી નમતી ઓછી કરે (પાઠ 9).", "एंटी-रोल बार — बाएँ और दाएँ पहिये को जोड़ने वाला स्टील बार, मोड़ पर गाड़ी का झुकना कम करता है (पाठ 9)."]]],
+    ['h', ["Sprung and unsprung weight", "સ્પ્રંગ અને અનસ્પ્રંગ વજન", "स्प्रंग और अनस्प्रंग वज़न"]],
+    ['p', ["In the picture, ① is the sprung weight: everything the spring carries — body, engine, seats, people and load. ② is the unsprung weight: everything below the spring — tyre, wheel, brake disc and caliper, hub and knuckle. The spring sits between ① and ②.",
+      "ચિત્રમાં ① સ્પ્રંગ વજન છે: સ્પ્રિંગ જે ઉપાડે તે બધું — બોડી, એન્જિન, સીટ, મુસાફરો અને સામાન. ② અનસ્પ્રંગ વજન છે: સ્પ્રિંગની નીચેનું બધું — ટાયર, વ્હીલ, બ્રેક ડિસ્ક અને કેલિપર, હબ અને નકલ. સ્પ્રિંગ ① અને ② ની વચ્ચે હોય છે.",
+      "चित्र में ① स्प्रंग वज़न है: स्प्रिंग जो उठाती है वह सब — बॉडी, इंजन, सीट, यात्री और सामान. ② अनस्प्रंग वज़न है: स्प्रिंग के नीचे का सब — टायर, पहिया, ब्रेक डिस्क और कैलिपर, हब और नकल. स्प्रिंग ① और ② के बीच होती है."]],
+    ['p', ["The lighter ② is compared with ①, the faster the wheel can follow the road and the less the body feels the bump. That is why good cars use aluminium arms and alloy wheels.", "① ની સરખામણીમાં ② જેટલું હલકું, તેટલું વ્હીલ રોડને ઝડપથી અનુસરે અને બોડીને ઓછો ઝટકો લાગે. એટલે સારી ગાડીઓમાં એલ્યુમિનિયમ આર્મ અને એલૉય વ્હીલ વપરાય છે.", "① की तुलना में ② जितना हल्का, पहिया उतनी तेज़ी से सड़क के साथ चलता है और बॉडी को उतना कम झटका लगता है. इसलिए अच्छी गाड़ियों में एल्युमिनियम आर्म और एलॉय व्हील लगते हैं."]],
+    ['h', ["What happens when you drive over a bump — step by step", "બમ્પ પરથી પસાર થાઓ ત્યારે શું થાય — એક પછી એક", "बम्प पर से गुज़रने पर क्या होता है — एक-एक करके"]],
+    ['li', [["1. The tyre hits the bump and is pushed up. The tyre itself squeezes a little — it is the first, small spring.", "1. ટાયર બમ્પને અથડાય અને ઉપર ધકેલાય. ટાયર પોતે થોડું દબાય — તે પહેલી, નાની સ્પ્રિંગ છે.", "1. टायर बम्प से टकराता है और ऊपर धकेला जाता है. टायर खुद थोड़ा दबता है — वह पहली, छोटी स्प्रिंग है."],
+      ["2. The wheel, hub and knuckle move up. The arms swing on their bushes and ball joints and keep the wheel straight.", "2. વ્હીલ, હબ અને નકલ ઉપર જાય. આર્મ પોતાના બુશ અને બૉલ જોઇન્ટ પર ફરે અને વ્હીલને સીધું રાખે.", "2. पहिया, हब और नकल ऊपर जाते हैं. आर्म अपने बुश और बॉल जॉइंट पर घूमते हैं और पहिये को सीधा रखते हैं."],
+      ["3. The spring is squeezed and stores the energy of the bump instead of passing it to the body.", "3. સ્પ્રિંગ દબાય અને ઝટકાની ઊર્જા બોડીને આપવાને બદલે પોતામાં સંગ્રહે.", "3. स्प्रिंग दबती है और झटके की ऊर्जा बॉडी को देने के बजाय अपने अंदर जमा करती है."],
+      ["4. The damper's piston is pushed through its oil and turns part of that energy into heat.", "4. ડેમ્પરનો પિસ્ટન તેલમાં ધકેલાય અને તે ઊર્જાનો ભાગ ગરમીમાં ફેરવે.", "4. डैम्पर का पिस्टन तेल में धकेला जाता है और उस ऊर्जा का हिस्सा गर्मी में बदलता है."],
+      ["5. After the bump, the spring pushes the wheel back down onto the road, and the damper makes sure it settles in one movement instead of bouncing.", "5. બમ્પ પછી સ્પ્રિંગ વ્હીલને પાછું રોડ પર દબાવે, અને ડેમ્પર ખાતરી કરે કે તે ઉછળ્યા વગર એક જ વારમાં સ્થિર થાય.", "5. बम्प के बाद स्प्रिंग पहिये को वापस सड़क पर दबाती है, और डैम्पर पक्का करता है कि वह उछले बिना एक ही बार में स्थिर हो."]]],
+    ['go', ['#bench', ["▶ See these parts in 3D on the tear-down bench", "▶ આ ભાગ 3D માં ખોલવાના બેન્ચ પર જુઓ", "▶ ये पार्ट 3D में खोलने की बेंच पर देखें"]]] ] },
+
+  { id: 'spring', svg: 'spring', h: ["How a spring works", "સ્પ્રિંગ કેવી રીતે કામ કરે છે", "स्प्रिंग कैसे काम करती है"], b: [
+    ['p', ["The spring is the part that actually holds the car up. Whatever force pushes on it, it squeezes in proportion — this is Hooke's law. The number that tells how stiff the spring is, is called the spring rate k.",
+      "સ્પ્રિંગ જ ખરેખર ગાડીને ઊંચકી રાખે છે. તેના પર જેટલું બળ આવે, તે પ્રમાણમાં તે દબાય — આને હૂકનો નિયમ કહે છે. સ્પ્રિંગ કેટલી કડક છે તે દર્શાવતી સંખ્યાને સ્પ્રિંગ રેટ k કહેવાય.",
+      "स्प्रिंग ही असल में गाड़ी को उठाए रखती है. उस पर जितना बल आए, वह उसी अनुपात में दबती है — इसे हुक का नियम कहते हैं. स्प्रिंग कितनी सख़्त है यह बताने वाली संख्या को स्प्रिंग रेट k कहते हैं."]],
+    ['eq', ["F = k × x", "F = k × x", "F = k × x"]],
+    ['p', ["F = force on the spring (N), x = how much it squeezes (mm), k = spring rate (N/mm).", "F = સ્પ્રિંગ પરનું બળ (N), x = તે કેટલી દબાય (mm), k = સ્પ્રિંગ રેટ (N/mm).", "F = स्प्रिंग पर बल (N), x = वह कितनी दबती है (mm), k = स्प्रिंग रेट (N/mm)."]],
+    ['ex', ["Example: one corner of a small car weighs about 330 kg → force = 330 × 9.81 ≈ 3240 N. With a spring of k = 24 N/mm the spring squeezes 3240 ÷ 24 ≈ 135 mm. This squeeze at rest is called static sag. Add 100 kg of luggage on that corner and it sinks a further 981 ÷ 24 ≈ 41 mm.",
+      "ઉદાહરણ: નાની ગાડીના એક ખૂણાનું વજન આશરે 330 kg → બળ = 330 × 9.81 ≈ 3240 N. k = 24 N/mm વાળી સ્પ્રિંગ 3240 ÷ 24 ≈ 135 mm દબાય. ઊભી ગાડીમાં આ દબાણને સ્ટેટિક સૅગ કહે છે. એ ખૂણા પર 100 kg સામાન મૂકો તો વધુ 981 ÷ 24 ≈ 41 mm નીચે બેસે.",
+      "उदाहरण: छोटी गाड़ी के एक कोने का वज़न लगभग 330 kg → बल = 330 × 9.81 ≈ 3240 N. k = 24 N/mm वाली स्प्रिंग 3240 ÷ 24 ≈ 135 mm दबती है. खड़ी गाड़ी में इस दबाव को स्टैटिक सैग कहते हैं. उस कोने पर 100 kg सामान रखें तो और 981 ÷ 24 ≈ 41 mm नीचे बैठेगी."]],
+    ['h', ["Types of spring", "સ્પ્રિંગના પ્રકાર", "स्प्रिंग के प्रकार"]],
+    ['li', [["Coil spring — a steel wire wound into a coil. Light and compact; used on almost every car.", "કોઇલ સ્પ્રિંગ — સ્ટીલના તારને ગૂંચળામાં વાળેલો. હલકી અને નાની; લગભગ દરેક કારમાં.", "कॉइल स्प्रिंग — स्टील के तार को कुंडली में लपेटा हुआ. हल्की और छोटी; लगभग हर कार में."],
+      ["Leaf spring — several curved steel plates (leaves) clamped together. Very strong; it also holds the axle in place. Used on trucks, buses and pickups.", "લીફ સ્પ્રિંગ — વાળેલી સ્ટીલની પટ્ટીઓ (પાંદડાં) એકસાથે ક્લેમ્પ કરેલી. ખૂબ મજબૂત; એક્સલને જગ્યાએ પણ રાખે. ટ્રક, બસ અને પિકઅપમાં.", "लीफ स्प्रिंग — मुड़ी हुई स्टील की पट्टियाँ (पत्तियाँ) एक साथ क्लैम्प की हुई. बहुत मज़बूत; एक्सल को जगह पर भी रखती है. ट्रक, बस और पिकअप में."],
+      ["Torsion bar — a straight steel bar that twists. Used on some SUVs and older cars.", "ટોર્શન બાર — વળ ખાતો સીધો સ્ટીલનો બાર. કેટલીક SUV અને જૂની ગાડીઓમાં.", "टॉर्शन बार — मरोड़ खाने वाला सीधा स्टील बार. कुछ SUV और पुरानी गाड़ियों में."],
+      ["Air spring — a rubber bag filled with compressed air. A compressor adds air when the car is loaded, so the height stays the same (lesson 7).", "એર સ્પ્રિંગ — દબાયેલી હવાથી ભરેલી રબરની થેલી. લોડ વધે તો કોમ્પ્રેસર હવા ઉમેરે, એટલે ઊંચાઈ એટલી જ રહે (પાઠ 7).", "एयर स्प्रिंग — दबाई हुई हवा से भरी रबर की थैली. लोड बढ़े तो कंप्रेसर हवा जोड़ता है, इसलिए ऊँचाई उतनी ही रहती है (पाठ 7)."]]],
+    ['h', ["Soft or stiff?", "નરમ કે કડક?", "नरम या सख़्त?"]],
+    ['li', [["A soft spring (low k) lets the wheel follow bumps without moving the body much — a comfortable ride — but the body leans and dips more.", "નરમ સ્પ્રિંગ (ઓછો k) બોડીને વધુ હલાવ્યા વગર વ્હીલને બમ્પ પર જવા દે — આરામદાયક સવારી — પણ બોડી વધુ નમે અને ઝૂકે.", "नरम स्प्रिंग (कम k) बॉडी को ज़्यादा हिलाए बिना पहिये को बम्प पर जाने देती है — आरामदायक सवारी — पर बॉडी ज़्यादा झुकती है."],
+      ["A stiff spring (high k) carries heavy loads and keeps the body flat, but small bumps are felt more.", "કડક સ્પ્રિંગ (વધુ k) ભારે વજન ઉપાડે અને બોડી સપાટ રાખે, પણ નાના ઝટકા વધુ અનુભવાય.", "सख़्त स्प्रिंग (ज़्यादा k) भारी वज़न उठाती है और बॉडी सपाट रखती है, पर छोटे झटके ज़्यादा महसूस होते हैं."],
+      ["Progressive spring — coils closer together at one end. Soft when the car is empty, firmer when it is loaded.", "પ્રોગ્રેસિવ સ્પ્રિંગ — એક છેડે આંટા નજીક-નજીક. ખાલી ગાડીમાં નરમ, લોડ સાથે કડક.", "प्रोग्रेसिव स्प्रिंग — एक सिरे पर घेरे पास-पास. खाली गाड़ी में नरम, लोड के साथ सख़्त."],
+      ["Bump stop — a hollow rubber/foam stopper inside the strut. At the end of travel it takes over smoothly so metal never hits metal.", "બમ્પ સ્ટોપ — સ્ટ્રટની અંદર પોલું રબર/ફોમનું સ્ટોપર. ટ્રાવેલના છેડે તે ધીમેથી બળ લે, જેથી ધાતુ ધાતુ સાથે ન અથડાય.", "बम्प स्टॉप — स्ट्रट के अंदर खोखला रबर/फ़ोम का स्टॉपर. ट्रैवल के अंत में यह धीरे से बल लेता है, ताकि धातु धातु से न टकराए."]]],
+    ['tip', ["Remember: a spring stores energy but does not get rid of it. Squeeze a spring and let go — it bounces up and down again and again. Something must stop that bouncing. That 'something' is the shock absorber — the next lesson.",
+      "યાદ રાખો: સ્પ્રિંગ ઊર્જા સંગ્રહે છે પણ તેને દૂર નથી કરતી. સ્પ્રિંગ દબાવીને છોડો — તે વારંવાર ઉપર-નીચે ઉછળે. આ ઉછળવું કોઈએ રોકવું પડે. એ કામ શૉક એબ્ઝોર્બર કરે — આગળનો પાઠ.",
+      "याद रखें: स्प्रिंग ऊर्जा जमा करती है पर उसे खत्म नहीं करती. स्प्रिंग दबाकर छोड़िए — वह बार-बार ऊपर-नीचे उछलती है. यह उछलना किसी को रोकना पड़ता है. यह काम शॉक एब्ज़ॉर्बर करता है — अगला पाठ."]] ] },
+
+  { id: 'damper', svg: 'damper', h: ["How a shock absorber (damper) works", "શૉક એબ્ઝોર્બર (ડેમ્પર) કેવી રીતે કામ કરે છે", "शॉक एब्ज़ॉर्बर (डैम्पर) कैसे काम करता है"], b: [
+    ['p', ["The name 'shock absorber' is a little misleading: it is the spring that absorbs the shock. The damper's job is to stop the spring from bouncing afterwards. It does this by turning the bouncing energy into heat.",
+      "'શૉક એબ્ઝોર્બર' નામ થોડું ભ્રામક છે: ઝટકો તો સ્પ્રિંગ શોષે છે. ડેમ્પરનું કામ પછી સ્પ્રિંગનું ઉછળવું રોકવાનું છે. તે ઉછળવાની ઊર્જાને ગરમીમાં ફેરવીને આ કરે છે.",
+      "'शॉक एब्ज़ॉर्बर' नाम थोड़ा भ्रमित करता है: झटका तो स्प्रिंग सोखती है. डैम्पर का काम बाद में स्प्रिंग का उछलना रोकना है. यह उछलने की ऊर्जा को गर्मी में बदलकर ऐसा करता है."]],
+    ['h', ["Inside the damper", "ડેમ્પરની અંદર", "डैम्पर के अंदर"]],
+    ['li', [["A steel tube full of special oil, with a piston on a polished rod.", "ખાસ તેલથી ભરેલી સ્ટીલની ટ્યુબ, અને ચમકતા રોડ પર પિસ્ટન.", "ख़ास तेल से भरी स्टील की ट्यूब, और चमकीली रॉड पर पिस्टन."],
+      ["The piston has very small holes covered by thin spring-steel discs (valves).", "પિસ્ટનમાં ખૂબ નાનાં કાણાં હોય, જે પાતળી સ્પ્રિંગ-સ્ટીલની ડિસ્ક (વાલ્વ)થી ઢંકાયેલાં હોય.", "पिस्टन में बहुत छोटे छेद होते हैं, जो पतली स्प्रिंग-स्टील की डिस्क (वाल्व) से ढके होते हैं."],
+      ["When the wheel moves, the piston must force oil through those small holes. That needs force — this force slows the movement, and the oil gets warm.", "વ્હીલ હલે ત્યારે પિસ્ટને તેલને આ નાનાં કાણાંમાંથી ધકેલવું પડે. તેમાં બળ જોઈએ — આ બળ હલનચલન ધીમું કરે, અને તેલ ગરમ થાય.", "पहिया हिले तो पिस्टन को तेल इन छोटे छेदों से धकेलना पड़ता है. इसमें बल लगता है — यह बल हलचल धीमी करता है, और तेल गर्म होता है."],
+      ["Faster movement = more force. The damper does not care how far the wheel moves, only how fast.", "વધુ ઝડપી હલનચલન = વધુ બળ. વ્હીલ કેટલું દૂર જાય તે નહીં, કેટલું ઝડપથી જાય તે ડેમ્પર માટે મહત્વનું છે.", "तेज़ हलचल = ज़्यादा बल. पहिया कितनी दूर जाता है वह नहीं, कितनी तेज़ी से जाता है वह डैम्पर के लिए मायने रखता है."]]],
+    ['h', ["Bump and rebound", "બમ્પ અને રીબાઉન્ડ", "बम्प और रिबाउंड"]],
+    ['p', ["Bump (compression) is when the wheel goes up into the car; rebound (extension) is when it comes back down. Dampers are made softer in bump — so the bump is not passed to the body — and about twice as firm in rebound, so the spring cannot throw the body up afterwards.",
+      "બમ્પ (કમ્પ્રેશન) એટલે વ્હીલ ગાડી તરફ ઉપર જાય; રીબાઉન્ડ (એક્સ્ટેન્શન) એટલે તે પાછું નીચે આવે. ડેમ્પર બમ્પમાં નરમ રાખાય — જેથી ઝટકો બોડીમાં ન જાય — અને રીબાઉન્ડમાં લગભગ બમણો કડક, જેથી સ્પ્રિંગ પછી બોડીને ઉપર ન ફેંકે.",
+      "बम्प (कम्प्रेशन) यानी पहिया गाड़ी की ओर ऊपर जाए; रिबाउंड (एक्सटेंशन) यानी वह वापस नीचे आए. डैम्पर बम्प में नरम रखा जाता है — ताकि झटका बॉडी में न जाए — और रिबाउंड में लगभग दोगुना सख़्त, ताकि स्प्रिंग बाद में बॉडी को ऊपर न फेंके."]],
+    ['h', ["Two common designs", "બે સામાન્ય ડિઝાઇન", "दो आम डिज़ाइन"]],
+    ['li', [["Twin-tube — an inner working tube and an outer reserve tube. Cheap and soft; used on most cars.", "ટ્વિન-ટ્યુબ — અંદર કામ કરતી ટ્યુબ અને બહાર રિઝર્વ ટ્યુબ. સસ્તું અને નરમ; મોટાભાગની કારમાં.", "ट्विन-ट्यूब — अंदर काम करने वाली ट्यूब और बाहर रिज़र्व ट्यूब. सस्ता और नरम; ज़्यादातर कारों में."],
+      ["Mono-tube (gas) — one tube; high-pressure nitrogen behind a floating piston stops the oil from foaming. Cools better; used on sports cars and SUVs.", "મોનો-ટ્યુબ (ગૅસ) — એક જ ટ્યુબ; ફ્લોટિંગ પિસ્ટન પાછળ ઊંચા દબાણનો નાઇટ્રોજન તેલને ફીણ થતું રોકે. વધુ ઠંડું રહે; સ્પોર્ટ્સ કાર અને SUV માં.", "मोनो-ट्यूब (गैस) — एक ही ट्यूब; फ़्लोटिंग पिस्टन के पीछे उच्च दबाव की नाइट्रोजन तेल को झाग बनने से रोकती है. ज़्यादा ठंडा रहता है; स्पोर्ट्स कार और SUV में."]]],
+    ['h', ["How to tell a damper is worn", "ડેમ્પર ઘસાયો છે તે કેવી રીતે ઓળખવું", "डैम्पर घिस गया है कैसे पहचानें"]],
+    ['li', [["Bounce test: push one corner down hard and let go. A good damper rises and stops (about 1–1½ movements). If it bounces 2–3 times, it is worn.", "બાઉન્સ ટેસ્ટ: એક ખૂણો જોરથી દબાવીને છોડો. સારો ડેમ્પર ઉપર આવીને અટકે (આશરે 1–1½ વાર). 2–3 વાર ઉછળે તો ઘસાયેલો.", "बाउंस टेस्ट: एक कोना ज़ोर से दबाकर छोड़ें. अच्छा डैम्पर ऊपर आकर रुकता है (लगभग 1–1½ बार). 2–3 बार उछले तो घिसा हुआ."],
+      ["Oil running down the outside of the damper body = the seal has failed.", "ડેમ્પરની બહાર તેલ વહેતું હોય = સીલ ખરાબ થઈ.", "डैम्पर के बाहर तेल बहता हो = सील खराब हो गई."],
+      ["The car floats and keeps moving after a speed breaker, nose-dives when braking, and tyres show 'cupped' (scalloped) wear.", "સ્પીડ બ્રેકર પછી ગાડી તરતી રહે, બ્રેક મારતાં આગળથી ઝૂકે, અને ટાયરમાં ખાડા જેવો (કપિંગ) ઘસારો દેખાય.", "स्पीड ब्रेकर के बाद गाड़ी तैरती रहे, ब्रेक लगाने पर आगे झुके, और टायर में गड्ढेदार (कपिंग) घिसाव दिखे."]]],
+    ['tip', ["Remember: replace dampers in pairs on the same axle. A worn damper is dangerous — the tyre bounces off the road at the moment you brake or steer.", "યાદ રાખો: ડેમ્પર હંમેશાં એક જ એક્સલ પર જોડીમાં બદલો. ઘસાયેલો ડેમ્પર જોખમી છે — બ્રેક કે સ્ટીયરિંગ વખતે જ ટાયર રોડ પરથી ઉછળી જાય.", "याद रखें: डैम्पर हमेशा एक ही एक्सल पर जोड़ी में बदलें. घिसा डैम्पर खतरनाक है — ब्रेक या स्टीयरिंग के समय ही टायर सड़क से उछल जाता है."]],
+    ['go', ['#dash', ["▶ Try it: in the Dashboard lower 'Damper health' and drive over a pothole", "▶ જાતે જુઓ: ડેશબોર્ડમાં 'ડેમ્પરની હાલત' ઘટાડી ખાડા પર ચલાવો", "▶ खुद देखें: डैशबोर्ड में 'डैम्पर की हालत' घटाकर गड्ढे पर चलाएँ"]]] ] },
+
+  { id: 'freq', h: ["Spring + damper together: natural frequency and comfort", "સ્પ્રિંગ + ડેમ્પર સાથે: નેચરલ ફ્રિક્વન્સી અને આરામ", "स्प्रिंग + डैम्पर साथ में: नेचुरल फ्रीक्वेंसी और आराम"], b: [
+    ['p', ["Now put the last two lessons together. A weight on a spring always bounces at its own speed, called the natural frequency — like a swing that always swings at the same rate. For the car body this depends only on the spring rate and the weight:",
+      "હવે છેલ્લા બે પાઠ ભેગા કરીએ. સ્પ્રિંગ પર મૂકેલું વજન હંમેશાં પોતાની ઝડપે ઉછળે, તેને નેચરલ ફ્રિક્વન્સી કહે — જેમ હીંચકો હંમેશાં એક જ ઝડપે ઝૂલે. ગાડીની બોડી માટે તે ફક્ત સ્પ્રિંગ રેટ અને વજન પર આધાર રાખે:",
+      "अब पिछले दो पाठ साथ रखें. स्प्रिंग पर रखा वज़न हमेशा अपनी गति से उछलता है, इसे नेचुरल फ्रीक्वेंसी कहते हैं — जैसे झूला हमेशा एक ही गति से झूलता है. गाड़ी की बॉडी के लिए यह सिर्फ़ स्प्रिंग रेट और वज़न पर निर्भर करती है:"]],
+    ['eq', ["f = (1 / 2π) × √(k / m)", "f = (1 / 2π) × √(k / m)", "f = (1 / 2π) × √(k / m)"]],
+    ['ex', ["Example: k = 24 000 N/m, m = 330 kg → √(24 000 ÷ 330) = 8.5 → f = 8.5 ÷ 6.28 ≈ 1.35 Hz, i.e. the body bounces about 1.35 times per second. Human walking is about 1–1.5 steps per second, so this feels natural. Above about 2 Hz the ride feels hard.",
+      "ઉદાહરણ: k = 24 000 N/m, m = 330 kg → √(24 000 ÷ 330) = 8.5 → f = 8.5 ÷ 6.28 ≈ 1.35 Hz, એટલે બોડી એક સેકન્ડમાં આશરે 1.35 વાર ઉછળે. માણસ ચાલે ત્યારે સેકન્ડમાં 1–1.5 ડગલાં ભરે, એટલે આ કુદરતી લાગે. 2 Hz થી વધુ થાય તો સવારી કડક લાગે.",
+      "उदाहरण: k = 24 000 N/m, m = 330 kg → √(24 000 ÷ 330) = 8.5 → f = 8.5 ÷ 6.28 ≈ 1.35 Hz, यानी बॉडी एक सेकंड में लगभग 1.35 बार उछलती है. इंसान चलते समय सेकंड में 1–1.5 कदम रखता है, इसलिए यह स्वाभाविक लगता है. 2 Hz से ज़्यादा हो तो सवारी सख़्त लगती है."]],
+    ['li', [["Body bounce: about 1–1.5 Hz (slow, big movement of the body).", "બોડી બાઉન્સ: આશરે 1–1.5 Hz (ધીમું, બોડીનું મોટું હલનચલન).", "बॉडी बाउंस: लगभग 1–1.5 Hz (धीमा, बॉडी की बड़ी हलचल)."],
+      ["Wheel hop: about 10–15 Hz (fast, small movement of the wheel between spring and tyre).", "વ્હીલ હોપ: આશરે 10–15 Hz (ઝડપી, સ્પ્રિંગ અને ટાયર વચ્ચે વ્હીલનું નાનું હલનચલન).", "व्हील हॉप: लगभग 10–15 Hz (तेज़, स्प्रिंग और टायर के बीच पहिये की छोटी हलचल)."],
+      ["Between these two speeds the suspension works best: road vibrations are filtered out before they reach the body.", "આ બે ઝડપ વચ્ચે સસ્પેન્શન સૌથી સારું કામ કરે: રોડનાં કંપન બોડી સુધી પહોંચતાં પહેલાં જ ગળાઈ જાય.", "इन दो गतियों के बीच सस्पेंशन सबसे अच्छा काम करता है: सड़क के कंपन बॉडी तक पहुँचने से पहले ही छन जाते हैं."]]],
+    ['p', ["How much the damper slows the bounce is called the damping ratio ζ (zeta). ζ = 0 means it bounces forever; ζ = 1 means it creeps back with no bounce at all (too harsh). Cars use ζ ≈ 0.25–0.4 — one small overshoot, then still.",
+      "ડેમ્પર ઉછળવું કેટલું ધીમું કરે તેને ડેમ્પિંગ રેશિયો ζ (ઝીટા) કહે. ζ = 0 એટલે હંમેશાં ઉછળ્યા કરે; ζ = 1 એટલે જરાય ઉછળ્યા વગર ધીમે પાછું આવે (ખૂબ કડક). કારમાં ζ ≈ 0.25–0.4 રખાય — એક નાનો ઉછાળ, પછી સ્થિર.",
+      "डैम्पर उछलना कितना धीमा करता है उसे डैम्पिंग रेशियो ζ (ज़ीटा) कहते हैं. ζ = 0 यानी हमेशा उछलता रहे; ζ = 1 यानी बिल्कुल उछले बिना धीरे वापस आए (बहुत सख़्त). कारों में ζ ≈ 0.25–0.4 रखा जाता है — एक छोटा उछाल, फिर स्थिर."]],
+    ['tip', ["Remember: comfort is measured by how much the body accelerates (m/s²). The international standard ISO 2631 says below 0.315 m/s² feels comfortable, and above 1 m/s² feels uncomfortable.", "યાદ રાખો: આરામ બોડીના એક્સિલરેશન (m/s²) થી મપાય. આંતરરાષ્ટ્રીય ધોરણ ISO 2631 મુજબ 0.315 m/s² થી ઓછું આરામદાયક, અને 1 m/s² થી વધુ અસુવિધાજનક લાગે.", "याद रखें: आराम बॉडी के एक्सेलरेशन (m/s²) से मापा जाता है. अंतरराष्ट्रीय मानक ISO 2631 के अनुसार 0.315 m/s² से कम आरामदायक, और 1 m/s² से ज़्यादा असुविधाजनक लगता है."]],
+    ['go', ['#dash', ["▶ See natural frequency, ζ and comfort change live in the Dashboard", "▶ ડેશબોર્ડમાં નેચરલ ફ્રિક્વન્સી, ζ અને આરામ લાઇવ બદલાતાં જુઓ", "▶ डैशबोर्ड में नेचुरल फ्रीक्वेंसी, ζ और आराम लाइव बदलते देखें"]]] ] },
+
+  { id: 'types', svg: 'axles', h: ["Independent and rigid (dependent) suspension", "ઇન્ડિપેન્ડન્ટ અને રિજિડ (ડિપેન્ડન્ટ) સસ્પેન્શન", "इंडिपेंडेंट और रिजिड (डिपेंडेंट) सस्पेंशन"], b: [
+    ['p', ["So far we looked at one wheel. A car has two wheels on each axle, and the big question is: are the left and right wheels connected to each other, or not? This splits all suspensions into two families.",
+      "અત્યાર સુધી આપણે એક વ્હીલ જોયું. ગાડીના દરેક એક્સલ પર બે વ્હીલ હોય, અને મોટો પ્રશ્ન એ છે: ડાબું અને જમણું વ્હીલ એકબીજા સાથે જોડાયેલાં છે કે નહીં? તેના આધારે બધાં સસ્પેન્શન બે પરિવારમાં વહેંચાય.",
+      "अब तक हमने एक पहिया देखा. गाड़ी के हर एक्सल पर दो पहिये होते हैं, और बड़ा सवाल है: बाएँ और दाएँ पहिये एक-दूसरे से जुड़े हैं या नहीं? इसके आधार पर सभी सस्पेंशन दो परिवारों में बँटते हैं."]],
+    ['h', ["① Independent — each wheel on its own", "① ઇન્ડિપેન્ડન્ટ — દરેક વ્હીલ સ્વતંત્ર", "① इंडिपेंडेंट — हर पहिया स्वतंत्र"]],
+    ['p', ["Each wheel has its own arms and its own spring. In the picture, when the left wheel climbs the bump only the left wheel goes up and only the left spring is squeezed. The right wheel stays upright and flat on the road.",
+      "દરેક વ્હીલના પોતાના આર્મ અને પોતાની સ્પ્રિંગ હોય. ચિત્રમાં, ડાબું વ્હીલ બમ્પ પર ચડે ત્યારે ફક્ત ડાબું વ્હીલ ઉપર જાય અને ફક્ત ડાબી સ્પ્રિંગ દબાય. જમણું વ્હીલ સીધું અને રોડ પર સપાટ રહે.",
+      "हर पहिये के अपने आर्म और अपनी स्प्रिंग होती है. चित्र में, बायाँ पहिया बम्प पर चढ़ता है तो सिर्फ़ बायाँ पहिया ऊपर जाता है और सिर्फ़ बाईं स्प्रिंग दबती है. दायाँ पहिया सीधा और सड़क पर सपाट रहता है."]],
+    ['li', [["✔ Better comfort — a bump on one side is not felt on the other.", "✔ વધુ આરામ — એક બાજુનો ઝટકો બીજી બાજુ ન અનુભવાય.", "✔ ज़्यादा आराम — एक ओर का झटका दूसरी ओर महसूस नहीं होता."],
+      ["✔ Better grip — both tyres stay flat on the road; lower unsprung weight.", "✔ વધુ ગ્રિપ — બંને ટાયર રોડ પર સપાટ રહે; અનસ્પ્રંગ વજન ઓછું.", "✔ ज़्यादा ग्रिप — दोनों टायर सड़क पर सपाट रहते हैं; अनस्प्रंग वज़न कम."],
+      ["✘ More parts and joints → costs more, more things to wear out, alignment needed.", "✘ વધુ ભાગ અને જોઇન્ટ → વધુ ખર્ચ, ઘસાય તેવી વધુ વસ્તુઓ, એલાઇનમેન્ટ જરૂરી.", "✘ ज़्यादा पार्ट और जॉइंट → ज़्यादा खर्च, घिसने वाली ज़्यादा चीज़ें, अलाइनमेंट ज़रूरी."],
+      ["Examples: MacPherson strut, double wishbone, multi-link — the front of almost every car.", "ઉદાહરણ: મેકફર્સન સ્ટ્રટ, ડબલ વિશબોન, મલ્ટી-લિંક — લગભગ દરેક કારની આગળ.", "उदाहरण: मैकफ़र्सन स्ट्रट, डबल विशबोन, मल्टी-लिंक — लगभग हर कार के आगे."]]],
+    ['h', ["② Rigid (dependent) — both wheels on one axle", "② રિજિડ (ડિપેન્ડન્ટ) — બંને વ્હીલ એક જ એક્સલ પર", "② रिजिड (डिपेंडेंट) — दोनों पहिये एक ही एक्सल पर"]],
+    ['p', ["Both wheels are bolted to the two ends of one solid axle beam. In the picture, when the left wheel climbs the bump it lifts the left end of the axle; the axle tilts like a see-saw, so the right wheel leans too, even though its road is flat. That is why it is called 'dependent' — one wheel depends on the other.",
+      "બંને વ્હીલ એક જ મજબૂત એક્સલ બીમના બે છેડે બોલ્ટ કરેલાં હોય. ચિત્રમાં, ડાબું વ્હીલ બમ્પ પર ચડે ત્યારે એક્સલનો ડાબો છેડો ઊંચકાય; એક્સલ લપસણી (સી-સૉ) જેમ ત્રાંસી થાય, એટલે જમણું વ્હીલ પણ નમે, ભલે તેનો રોડ સપાટ હોય. એટલે તેને 'ડિપેન્ડન્ટ' કહે — એક વ્હીલ બીજા પર આધાર રાખે.",
+      "दोनों पहिये एक ही मज़बूत एक्सल बीम के दो सिरों पर बोल्ट होते हैं. चित्र में, बायाँ पहिया बम्प पर चढ़ता है तो एक्सल का बायाँ सिरा उठता है; एक्सल सी-सॉ की तरह तिरछा होता है, इसलिए दायाँ पहिया भी झुकता है, भले उसकी सड़क सपाट हो. इसलिए इसे 'डिपेंडेंट' कहते हैं — एक पहिया दूसरे पर निर्भर है."]],
+    ['li', [["✔ Very strong and simple, cheap to make and repair; carries heavy loads; ground clearance stays the same under load.", "✔ ખૂબ મજબૂત અને સાદું, બનાવવા અને રિપેર કરવામાં સસ્તું; ભારે વજન ઉપાડે; લોડ સાથે પણ ગ્રાઉન્ડ ક્લિયરન્સ એટલું જ રહે.", "✔ बहुत मज़बूत और सरल, बनाने और रिपेयर करने में सस्ता; भारी वज़न उठाता है; लोड के साथ भी ग्राउंड क्लीयरेंस उतना ही रहता है."],
+      ["✘ Harder ride, heavy unsprung weight (the whole axle and differential), the car shakes sideways on broken roads.", "✘ કડક સવારી, ભારે અનસ્પ્રંગ વજન (આખો એક્સલ અને ડિફરન્શિયલ), તૂટેલા રોડ પર ગાડી બાજુમાં હલે.", "✘ सख़्त सवारी, भारी अनस्प्रंग वज़न (पूरा एक्सल और डिफ़रेंशियल), टूटी सड़क पर गाड़ी बगल में हिलती है."],
+      ["Examples: leaf-spring live axle on trucks, buses, tractors and pickups.", "ઉદાહરણ: ટ્રક, બસ, ટ્રેક્ટર અને પિકઅપમાં લીફ-સ્પ્રિંગ લાઇવ એક્સલ.", "उदाहरण: ट्रक, बस, ट्रैक्टर और पिकअप में लीफ-स्प्रिंग लाइव एक्सल."]]],
+    ['h', ["In between: semi-independent", "વચ્ચેનું: સેમી-ઇન્ડિપેન્ડન્ટ", "बीच का: सेमी-इंडिपेंडेंट"]],
+    ['p', ["The twist-beam rear axle of small front-wheel-drive cars joins both wheels with a beam that can twist. When one wheel rises the beam twists, so the other wheel is only partly affected. Cheap and compact, with a ride between the two families.",
+      "નાની ફ્રન્ટ-વ્હીલ-ડ્રાઇવ કારના પાછળના ટ્વિસ્ટ-બીમ એક્સલમાં બંને વ્હીલ વળ ખાઈ શકે તેવા બીમથી જોડાયેલાં હોય. એક વ્હીલ ઊંચું થાય ત્યારે બીમ વળ ખાય, એટલે બીજા વ્હીલ પર થોડી જ અસર થાય. સસ્તું અને નાનું, સવારી બંને પરિવાર વચ્ચેની.",
+      "छोटी फ्रंट-व्हील-ड्राइव कारों के पीछे के ट्विस्ट-बीम एक्सल में दोनों पहिये मरोड़ खा सकने वाले बीम से जुड़े होते हैं. एक पहिया उठता है तो बीम मरोड़ खाता है, इसलिए दूसरे पहिये पर थोड़ा ही असर होता है. सस्ता और छोटा, सवारी दोनों परिवारों के बीच की."]],
+    ['tip', ["Remember: independent = comfort and grip (cars); rigid = strength and load (trucks). Twist-beam = a cheap compromise (rear of small cars).", "યાદ રાખો: ઇન્ડિપેન્ડન્ટ = આરામ અને ગ્રિપ (કાર); રિજિડ = મજબૂતી અને વજન (ટ્રક). ટ્વિસ્ટ-બીમ = સસ્તું સમાધાન (નાની કારની પાછળ).", "याद रखें: इंडिपेंडेंट = आराम और ग्रिप (कार); रिजिड = मज़बूती और वज़न (ट्रक). ट्विस्ट-बीम = सस्ता समझौता (छोटी कार के पीछे)."]] ] },
+
+  { id: 'systems', h: ["The six common suspension systems", "છ સામાન્ય સસ્પેન્શન સિસ્ટમ", "छह आम सस्पेंशन सिस्टम"], b: [
+    ['p', ["With the two families in mind, here are the real systems you will meet in the workshop. Each one is a different way of arranging the same parts — spring, damper, arms and joints. Pick any of them on the bench to take it apart in 3D.",
+      "બંને પરિવાર ધ્યાનમાં રાખીને, વર્કશોપમાં જોવા મળતી સાચી સિસ્ટમ આ છે. દરેક એ જ ભાગ — સ્પ્રિંગ, ડેમ્પર, આર્મ અને જોઇન્ટ — ગોઠવવાની અલગ રીત છે. બેન્ચ પર કોઈ પણ પસંદ કરી 3D માં ખોલી જુઓ.",
+      "दोनों परिवार ध्यान में रखकर, वर्कशॉप में मिलने वाले असली सिस्टम ये हैं. हर एक वही पार्ट — स्प्रिंग, डैम्पर, आर्म और जॉइंट — लगाने का अलग तरीका है. बेंच पर कोई भी चुनकर 3D में खोलें."]],
+    ['tbl', [[["System", "Type · where", "Good", "Weak"], ["સિસ્ટમ", "પ્રકાર · ક્યાં", "ફાયદો", "નબળાઈ"], ["सिस्टम", "प्रकार · कहाँ", "फ़ायदा", "कमज़ोरी"]], [
+      [["MacPherson strut", "મેકફર્સન સ્ટ્રટ", "मैकफ़र्सन स्ट्रट"], ["Independent · front of most cars", "ઇન્ડિપેન્ડન્ટ · મોટાભાગની કારની આગળ", "इंडिपेंडेंट · ज़्यादातर कारों के आगे"], ["Few parts, cheap, leaves room for the engine", "ઓછા ભાગ, સસ્તું, એન્જિન માટે જગ્યા", "कम पार्ट, सस्ता, इंजन के लिए जगह"], ["Camber changes as it moves; damper takes side load", "હલે ત્યારે કૅમ્બર બદલાય; ડેમ્પર પર બાજુનો ભાર", "हिलने पर कैम्बर बदलता है; डैम्पर पर बगल का भार"]],
+      [["Double wishbone", "ડબલ વિશબોન", "डबल विशबोन"], ["Independent · SUVs, sports cars, pickups (front)", "ઇન્ડિપેન્ડન્ટ · SUV, સ્પોર્ટ્સ કાર, પિકઅપ (આગળ)", "इंडिपेंडेंट · SUV, स्पोर्ट्स कार, पिकअप (आगे)"], ["Wheel angle controlled very precisely; strong", "વ્હીલનો ખૂણો ચોક્કસ કાબૂમાં; મજબૂત", "पहिये का कोण सटीक नियंत्रण में; मज़बूत"], ["More parts, more space, costs more", "વધુ ભાગ, વધુ જગ્યા, વધુ ખર્ચ", "ज़्यादा पार्ट, ज़्यादा जगह, ज़्यादा खर्च"]],
+      [["Multi-link", "મલ્ટી-લિંક", "मल्टी-लिंक"], ["Independent · rear of premium cars", "ઇન્ડિપેન્ડન્ટ · મોંઘી કારની પાછળ", "इंडिपेंडेंट · महँगी कारों के पीछे"], ["Best comfort + grip; each link tuned separately", "શ્રેષ્ઠ આરામ + ગ્રિપ; દરેક લિંક અલગ ગોઠવાય", "सबसे अच्छा आराम + ग्रिप; हर लिंक अलग ट्यून"], ["Many bushes to wear; costly; complex alignment", "ઘણાં બુશ ઘસાય; મોંઘું; જટિલ એલાઇનમેન્ટ", "कई बुश घिसते हैं; महँगा; जटिल अलाइनमेंट"]],
+      [["Twist-beam", "ટ્વિસ્ટ-બીમ", "ट्विस्ट-बीम"], ["Semi-independent · rear of small FWD cars", "સેમી-ઇન્ડિપેન્ડન્ટ · નાની FWD કારની પાછળ", "सेमी-इंडिपेंडेंट · छोटी FWD कारों के पीछे"], ["Very cheap, compact, almost no maintenance", "ખૂબ સસ્તું, નાનું, લગભગ મેઇન્ટેનન્સ નહીં", "बहुत सस्ता, छोटा, लगभग मेंटेनेंस नहीं"], ["Limited comfort and wheel control", "મર્યાદિત આરામ અને વ્હીલ કંટ્રોલ", "सीमित आराम और पहिया नियंत्रण"]],
+      [["Leaf-spring live axle", "લીફ-સ્પ્રિંગ લાઇવ એક્સલ", "लीफ-स्प्रिंग लाइव एक्सल"], ["Rigid · rear of trucks, buses, pickups", "રિજિડ · ટ્રક, બસ, પિકઅપની પાછળ", "रिजिड · ट्रक, बस, पिकअप के पीछे"], ["Carries heavy loads; simple; tough", "ભારે વજન ઉપાડે; સાદું; મજબૂત", "भारी वज़न उठाता है; सरल; मज़बूत"], ["Harsh ride when empty; heavy", "ખાલી હોય ત્યારે કડક સવારી; ભારે", "खाली होने पर सख़्त सवारी; भारी"]],
+      [["Air suspension", "એર સસ્પેન્શન", "एयर सस्पेंशन"], ["Independent · luxury cars, buses", "ઇન્ડિપેન્ડન્ટ · લક્ઝરી કાર, બસ", "इंडिपेंडेंट · लक्ज़री कार, बस"], ["Same height and comfort whether empty or full; height adjustable", "ખાલી કે ભરેલી — એ જ ઊંચાઈ અને આરામ; ઊંચાઈ બદલી શકાય", "खाली या भरी — वही ऊँचाई और आराम; ऊँचाई बदल सकते हैं"], ["Expensive; leaks; needs compressor and electronics", "મોંઘું; લીક થાય; કોમ્પ્રેસર અને ઇલેક્ટ્રોનિક્સ જોઈએ", "महँगा; लीक होता है; कंप्रेसर और इलेक्ट्रॉनिक्स चाहिए"]]]]],
+    ['go', ['#compare', ["▶ Compare all six side by side", "▶ છયે સિસ્ટમ સાથે સરખાવો", "▶ छहों सिस्टम साथ में तुलना करें"]]] ] },
+
+  { id: 'align', svg: 'align', h: ["Wheel alignment angles", "વ્હીલ એલાઇનમેન્ટના ખૂણા", "व्हील अलाइनमेंट के कोण"], b: [
+    ['p', ["The arms hold the wheel, but not perfectly upright and straight — they hold it at small, carefully chosen angles. These angles decide whether the car drives straight, whether the steering comes back to centre, and how evenly the tyres wear. Setting them is called wheel alignment.",
+      "આર્મ વ્હીલને પકડે છે, પણ બરાબર ઊભું અને સીધું નહીં — કાળજીથી પસંદ કરેલા નાના ખૂણે પકડે છે. આ ખૂણા નક્કી કરે કે ગાડી સીધી ચાલશે કે નહીં, સ્ટીયરિંગ પોતાની મેળે સીધું થશે કે નહીં, અને ટાયર કેટલાં સરખાં ઘસાશે. તેને સેટ કરવાને વ્હીલ એલાઇનમેન્ટ કહે.",
+      "आर्म पहिये को पकड़ते हैं, पर बिल्कुल खड़ा और सीधा नहीं — ध्यान से चुने छोटे कोणों पर पकड़ते हैं. ये कोण तय करते हैं कि गाड़ी सीधी चलेगी या नहीं, स्टीयरिंग अपने आप सीधा होगा या नहीं, और टायर कितने बराबर घिसेंगे. इन्हें सेट करना व्हील अलाइनमेंट कहलाता है."]],
+    ['h', ["Camber — tilt seen from the front", "કૅમ્બર — આગળથી દેખાતો ઝુકાવ", "कैम्बर — आगे से दिखने वाला झुकाव"]],
+    ['p', ["If the top of the wheel leans in towards the car, camber is negative; if it leans out, positive. A little negative camber (about −0.5° to −1°) gives better grip in corners. Too much negative wears the inner edge of the tyre; positive camber wears the outer edge.",
+      "વ્હીલનો ઉપરનો ભાગ ગાડી તરફ અંદર નમે તો કૅમ્બર નેગેટિવ; બહાર નમે તો પોઝિટિવ. થોડો નેગેટિવ કૅમ્બર (આશરે −0.5° થી −1°) વળાંકમાં વધુ ગ્રિપ આપે. વધુ પડતો નેગેટિવ ટાયરની અંદરની કિનારી ઘસે; પોઝિટિવ કૅમ્બર બહારની કિનારી ઘસે.",
+      "पहिये का ऊपरी भाग गाड़ी की ओर अंदर झुके तो कैम्बर नेगेटिव; बाहर झुके तो पॉज़िटिव. थोड़ा नेगेटिव कैम्बर (लगभग −0.5° से −1°) मोड़ पर ज़्यादा ग्रिप देता है. ज़्यादा नेगेटिव टायर का अंदरूनी किनारा घिसता है; पॉज़िटिव कैम्बर बाहरी किनारा घिसता है."]],
+    ['h', ["Caster — tilt of the steering axis seen from the side", "કૅસ્ટર — બાજુથી દેખાતો સ્ટીયરિંગ અક્ષનો ઝુકાવ", "कैस्टर — बगल से दिखने वाला स्टीयरिंग अक्ष का झुकाव"]],
+    ['p', ["The line the wheel turns about is tilted backwards at the top (about 3–6°). Because of this, the tyre's contact point trails behind the axis — exactly like the front wheel of a shopping trolley or a bicycle fork. Result: the car runs straight on its own and the steering wheel returns to centre after a turn. If left and right caster differ, the car pulls towards the side with less caster.",
+      "વ્હીલ જે રેખા પર ફરે છે તે ઉપરથી પાછળ તરફ નમેલી હોય (આશરે 3–6°). આને કારણે ટાયરનું સંપર્ક બિંદુ અક્ષની પાછળ રહે — જેમ શોપિંગ ટ્રોલી કે સાઇકલના આગળના પૈડામાં. પરિણામ: ગાડી પોતાની મેળે સીધી ચાલે અને વળાંક પછી સ્ટીયરિંગ પાછું સીધું થાય. ડાબે-જમણે કૅસ્ટર અલગ હોય તો ગાડી ઓછા કૅસ્ટરવાળી બાજુ ખેંચાય.",
+      "पहिया जिस रेखा पर घूमता है वह ऊपर से पीछे की ओर झुकी होती है (लगभग 3–6°). इस कारण टायर का संपर्क बिंदु अक्ष के पीछे रहता है — जैसे शॉपिंग ट्रॉली या साइकिल के आगे के पहिये में. नतीजा: गाड़ी अपने आप सीधी चलती है और मोड़ के बाद स्टीयरिंग वापस सीधा होता है. बाएँ-दाएँ कैस्टर अलग हो तो गाड़ी कम कैस्टर वाली ओर खिंचती है."]],
+    ['h', ["Toe — wheels seen from above", "ટો — ઉપરથી દેખાતાં વ્હીલ", "टो — ऊपर से दिखने वाले पहिये"]],
+    ['p', ["Toe-in: the fronts of the two wheels point slightly towards each other (a few mm). Toe-out: they point apart. Toe has the biggest effect on tyre wear: wrong toe drags the tyre sideways on every turn, giving 'feathered' (saw-tooth) wear. Toe is set by turning the tie-rods.",
+      "ટો-ઇન: બંને વ્હીલનો આગળનો ભાગ એકબીજા તરફ થોડો વળેલો (થોડા mm). ટો-આઉટ: એકબીજાથી દૂર. ટાયર ઘસારા પર ટો ની અસર સૌથી વધુ છે: ખોટો ટો દરેક આંટે ટાયરને બાજુમાં ઘસડે, અને 'પીંછા જેવો' (કરવત જેવો) ઘસારો આપે. ટો ટાઇ-રોડ ફેરવીને સેટ થાય.",
+      "टो-इन: दोनों पहियों का आगे का भाग एक-दूसरे की ओर थोड़ा मुड़ा (कुछ mm). टो-आउट: एक-दूसरे से दूर. टायर घिसाव पर टो का असर सबसे ज़्यादा है: गलत टो हर चक्कर में टायर को बगल में घसीटता है, और 'पंख जैसा' (आरी जैसा) घिसाव देता है. टो टाई-रॉड घुमाकर सेट होता है."]],
+    ['tbl', [[["Wrong angle", "What you notice"], ["ખોટો ખૂણો", "શું દેખાય"], ["गलत कोण", "क्या दिखता है"]], [
+      [["Too much negative camber", "વધુ નેગેટિવ કૅમ્બર", "ज़्यादा नेगेटिव कैम्बर"], ["Inner edge of tyre wears", "ટાયરની અંદરની કિનારી ઘસાય", "टायर का अंदरूनी किनारा घिसे"]],
+      [["Positive camber", "પોઝિટિવ કૅમ્બર", "पॉज़िटिव कैम्बर"], ["Outer edge wears", "બહારની કિનારી ઘસાય", "बाहरी किनारा घिसे"]],
+      [["Too much toe-in / toe-out", "વધુ ટો-ઇન / ટો-આઉટ", "ज़्यादा टो-इन / टो-आउट"], ["Feathered wear, tyre squeal, wandering", "પીંછા જેવો ઘસારો, ટાયરનો ચીંચીં અવાજ, ગાડી ડગમગે", "पंख जैसा घिसाव, टायर की चीं-चीं, गाड़ी डगमगाए"]],
+      [["Low caster", "ઓછું કૅસ્ટર", "कम कैस्टर"], ["Light steering, does not return to centre", "હળવું સ્ટીયરિંગ, પાછું સીધું ન થાય", "हल्का स्टीयरिंग, वापस सीधा न हो"]],
+      [["Caster different left/right", "ડાબે/જમણે કૅસ્ટર અલગ", "बाएँ/दाएँ कैस्टर अलग"], ["Car pulls to one side", "ગાડી એક બાજુ ખેંચાય", "गाड़ी एक ओर खिंचे"]]]]],
+    ['tip', ["Remember: check tyres, pressures, ride height and all joints first. Alignment on a worn ball joint or bush is wasted. Always align after replacing any arm, tie-rod, strut or knuckle.", "યાદ રાખો: પહેલાં ટાયર, પ્રેશર, ઊંચાઈ અને બધા જોઇન્ટ તપાસો. ઘસાયેલા બૉલ જોઇન્ટ કે બુશ પર કરેલું એલાઇનમેન્ટ નકામું. કોઈ પણ આર્મ, ટાઇ-રોડ, સ્ટ્રટ કે નકલ બદલ્યા પછી હંમેશાં એલાઇનમેન્ટ કરો.", "याद रखें: पहले टायर, प्रेशर, ऊँचाई और सभी जॉइंट जाँचें. घिसे बॉल जॉइंट या बुश पर किया अलाइनमेंट बेकार है. कोई भी आर्म, टाई-रॉड, स्ट्रट या नकल बदलने के बाद हमेशा अलाइनमेंट करें."]],
+    ['go', ['#dash', ["▶ Try the Wheel-alignment explorer in the Dashboard", "▶ ડેશબોર્ડમાં વ્હીલ-એલાઇનમેન્ટ એક્સપ્લોરર અજમાવો", "▶ डैशबोर्ड में व्हील-अलाइनमेंट एक्सप्लोरर आज़माएँ"]]] ] },
+
+  { id: 'roll', svg: 'roll', h: ["Body roll and the anti-roll bar", "બૉડી રોલ અને એન્ટી-રોલ બાર", "बॉडी रोल और एंटी-रोल बार"], b: [
+    ['p', ["So far the car went straight. In a corner a new force appears: the body wants to keep going straight, so it is pushed towards the outside of the turn. Because the body's weight sits high (at the centre of gravity), this force makes the body lean outwards — body roll.",
+      "અત્યાર સુધી ગાડી સીધી ચાલી. વળાંકમાં એક નવું બળ આવે: બોડી સીધી જ જવા માંગે, એટલે વળાંકની બહારની તરફ ધકેલાય. બોડીનું વજન ઊંચે (ગુરુત્વ કેન્દ્રમાં) હોવાથી આ બળ બોડીને બહાર તરફ નમાવે — બૉડી રોલ.",
+      "अब तक गाड़ी सीधी चली. मोड़ पर एक नया बल आता है: बॉडी सीधी ही जाना चाहती है, इसलिए मोड़ के बाहर की ओर धकेली जाती है. बॉडी का वज़न ऊँचाई पर (गुरुत्व केंद्र में) होने से यह बल बॉडी को बाहर की ओर झुकाता है — बॉडी रोल."]],
+    ['li', [["Weight moves from the inner wheels to the outer wheels (load transfer). The outer springs are squeezed, the inner springs stretch.", "વજન અંદરનાં વ્હીલથી બહારનાં વ્હીલ પર જાય (લોડ ટ્રાન્સફર). બહારની સ્પ્રિંગ દબાય, અંદરની ખેંચાય.", "वज़न अंदर के पहियों से बाहर के पहियों पर जाता है (लोड ट्रांसफर). बाहर की स्प्रिंग दबती है, अंदर की खिंचती है."],
+      ["The higher the centre of gravity and the faster the turn, the bigger the load transfer. If all the weight leaves the inner wheels, they lift — and a tall vehicle can roll over.", "ગુરુત્વ કેન્દ્ર જેટલું ઊંચું અને વળાંક જેટલો ઝડપી, લોડ ટ્રાન્સફર તેટલું વધુ. અંદરનાં વ્હીલ પરથી બધું વજન ખસી જાય તો તે ઊંચકાય — અને ઊંચી ગાડી ઊંધી વળી શકે.", "गुरुत्व केंद्र जितना ऊँचा और मोड़ जितना तेज़, लोड ट्रांसफर उतना ज़्यादा. अंदर के पहियों से सारा वज़न हट जाए तो वे उठ जाते हैं — और ऊँची गाड़ी पलट सकती है."]]],
+    ['eq', ["Load transfer = m × a × h ÷ track width", "લોડ ટ્રાન્સફર = m × a × h ÷ ટ્રૅક પહોળાઈ", "लोड ट्रांसफर = m × a × h ÷ ट्रैक चौड़ाई"]],
+    ['h', ["The anti-roll bar", "એન્ટી-રોલ બાર", "एंटी-रोल बार"]],
+    ['p', ["The anti-roll (stabiliser) bar is a U-shaped steel bar. Its middle is held to the body in two rubber bushes; its ends are joined to the left and right suspension by drop links. When one side goes down and the other goes up — as in a corner — the bar has to twist, and it resists. This pushes the outer side up and the inner side down, so the body leans less.",
+      "એન્ટી-રોલ (સ્ટેબિલાઇઝર) બાર U આકારનો સ્ટીલ બાર છે. તેનો વચ્ચેનો ભાગ બે રબર બુશમાં બોડી સાથે પકડેલો; તેના છેડા ડ્રોપ લિંકથી ડાબા અને જમણા સસ્પેન્શન સાથે જોડાયેલા. એક બાજુ નીચે અને બીજી ઉપર જાય — જેમ વળાંકમાં — ત્યારે બારે વળ ખાવો પડે, અને તે વિરોધ કરે. તે બહારની બાજુને ઉપર અને અંદરની બાજુને નીચે ધકેલે, એટલે બોડી ઓછી નમે.",
+      "एंटी-रोल (स्टेबलाइज़र) बार U आकार का स्टील बार है. इसका बीच का भाग दो रबर बुश में बॉडी से पकड़ा होता है; इसके सिरे ड्रॉप लिंक से बाएँ और दाएँ सस्पेंशन से जुड़े होते हैं. एक ओर नीचे और दूसरी ऊपर जाए — जैसे मोड़ में — तो बार को मरोड़ खाना पड़ता है, और वह विरोध करता है. यह बाहर की ओर को ऊपर और अंदर की ओर को नीचे धकेलता है, इसलिए बॉडी कम झुकती है."]],
+    ['li', [["When both wheels go up together (speed breaker), the bar does not twist — so it does not spoil the ride.", "બંને વ્હીલ સાથે ઉપર જાય (સ્પીડ બ્રેકર) ત્યારે બાર વળ ખાતો નથી — એટલે સવારી બગડતી નથી.", "दोनों पहिये साथ ऊपर जाएँ (स्पीड ब्रेकर) तो बार मरोड़ नहीं खाता — इसलिए सवारी नहीं बिगड़ती."],
+      ["Thicker bar = less lean. A stiffer front bar makes the car understeer (it runs wide in a turn); a stiffer rear bar makes it oversteer (the rear slides).", "જાડો બાર = ઓછું નમવું. આગળનો બાર કડક હોય તો ગાડી અંડરસ્ટીયર કરે (વળાંકમાં બહાર જાય); પાછળનો બાર કડક હોય તો ઓવરસ્ટીયર (પાછળનો ભાગ સરકે).", "मोटा बार = कम झुकना. आगे का बार सख़्त हो तो गाड़ी अंडरस्टीयर करती है (मोड़ पर बाहर जाती है); पीछे का बार सख़्त हो तो ओवरस्टीयर (पीछे का भाग फिसलता है)."],
+      ["A rattle from the front over small bumps is very often a worn drop link — cheap to replace.", "નાના ખાડા પર આગળથી ખડખડાટ ઘણીવાર ઘસાયેલી ડ્રોપ લિંકનો હોય — બદલવી સસ્તી.", "छोटे गड्ढों पर आगे से खड़खड़ाहट अक्सर घिसी ड्रॉप लिंक की होती है — बदलना सस्ता."]]],
+    ['go', ['#dash', ["▶ Change lateral g and the bar stiffness in 'Body roll & anti-roll bar'", "▶ 'બૉડી રોલ અને એન્ટી-રોલ બાર' માં g અને બારની કડકાઈ બદલો", "▶ 'बॉडी रोल और एंटी-रोल बार' में g और बार की सख़्ती बदलें"]]] ] },
+
+  { id: 'joints', h: ["Bushes, ball joints and mounts — the hinges", "બુશ, બૉલ જોઇન્ટ અને માઉન્ટ — મિજાગરા", "बुश, बॉल जॉइंट और माउंट — कब्ज़े"], b: [
+    ['p', ["All the arms we saw must pivot somewhere. These pivots are small parts, but they wear out more often than anything else and cause most clunks and knocks. They also decide whether the alignment angles stay correct.",
+      "આપણે જોયેલા બધા આર્મ ક્યાંક ફરવા જોઈએ. આ પિવોટ નાના ભાગ છે, પણ બીજી કોઈ પણ વસ્તુ કરતાં વધુ વાર ઘસાય છે અને મોટાભાગના ખટાક-ઠક અવાજ તેનાથી આવે છે. એલાઇનમેન્ટના ખૂણા સાચા રહેશે કે નહીં તે પણ તે જ નક્કી કરે.",
+      "हमने जो सभी आर्म देखे वे कहीं घूमने चाहिए. ये पिवट छोटे पार्ट हैं, पर किसी भी चीज़ से ज़्यादा बार घिसते हैं और ज़्यादातर खटाक-ठक आवाज़ इन्हीं से आती है. अलाइनमेंट के कोण सही रहेंगे या नहीं यह भी यही तय करते हैं."]],
+    ['li', [["Rubber bush — a rubber sleeve bonded between two steel tubes. It allows small twisting, soaks up vibration and noise, and needs no grease. Cracked or torn rubber = clunks, vague steering, pulling under braking.", "રબર બુશ — બે સ્ટીલ ટ્યુબ વચ્ચે ચોંટાડેલી રબરની સ્લીવ. થોડો વળ ખાવા દે, કંપન અને અવાજ શોષે, ગ્રીસ જોઈએ નહીં. તિરાડ કે ફાટેલું રબર = ખટાક, ઢીલું સ્ટીયરિંગ, બ્રેક વખતે ખેંચાણ.", "रबर बुश — दो स्टील ट्यूब के बीच चिपकाई रबर की स्लीव. थोड़ा मरोड़ने देती है, कंपन और आवाज़ सोखती है, ग्रीस नहीं चाहिए. दरार या फटा रबर = खटाक, ढीला स्टीयरिंग, ब्रेक पर खिंचाव."],
+      ["Ball joint — a steel ball in a greased socket, like your hip joint. It lets the knuckle both swing up-down and turn for steering. A worn ball joint knocks; if it separates the wheel collapses — very dangerous.", "બૉલ જોઇન્ટ — ગ્રીસવાળા સૉકેટમાં સ્ટીલનો બૉલ, તમારા થાપાના સાંધા જેવો. નકલને ઉપર-નીચે પણ ફરવા દે અને સ્ટીયરિંગ માટે વળવા પણ દે. ઘસાયેલો બૉલ જોઇન્ટ ઠક-ઠક કરે; છૂટો પડે તો વ્હીલ બેસી જાય — ખૂબ જોખમી.", "बॉल जॉइंट — ग्रीस वाले सॉकेट में स्टील की गेंद, आपके कूल्हे के जोड़ जैसी. नकल को ऊपर-नीचे भी घूमने देती है और स्टीयरिंग के लिए मुड़ने भी देती है. घिसा बॉल जॉइंट ठक-ठक करता है; छूट जाए तो पहिया बैठ जाता है — बहुत खतरनाक."],
+      ["Strut top mount — a rubber mount with a bearing at the top of a MacPherson strut. The whole strut turns on it when you steer. Worn: creak or clunk when turning the wheel in a parking lot.", "સ્ટ્રટ ટોપ માઉન્ટ — મેકફર્સન સ્ટ્રટની ટોચે બેરિંગવાળો રબર માઉન્ટ. સ્ટીયરિંગ ફેરવો ત્યારે આખો સ્ટ્રટ તેના પર ફરે. ઘસાય તો પાર્કિંગમાં સ્ટીયરિંગ ફેરવતાં કિચૂડ કે ખટાક.", "स्ट्रट टॉप माउंट — मैकफ़र्सन स्ट्रट के ऊपर बेयरिंग वाला रबर माउंट. स्टीयरिंग घुमाने पर पूरा स्ट्रट इस पर घूमता है. घिसे तो पार्किंग में स्टीयरिंग घुमाने पर चीं-चीं या खटाक."],
+      ["Wheel bearing — lets the wheel spin. Worn: a hum or growl that gets louder with speed and changes when you weave.", "વ્હીલ બેરિંગ — વ્હીલને ફરવા દે. ઘસાય તો ઝડપ સાથે વધતો ગુંજારવ, જે વળાંક લેતાં બદલાય.", "व्हील बेयरिंग — पहिये को घूमने देती है. घिसे तो गति के साथ बढ़ती घरघराहट, जो मोड़ लेने पर बदलती है."]]],
+    ['tip', ["Remember: rubber-bushed bolts must be tightened with the car at its normal ride height (on its wheels or with the arm jacked up to that height). Tightened with the wheel hanging, the rubber is pre-twisted and tears within months.", "યાદ રાખો: રબર-બુશવાળા બોલ્ટ ગાડી સામાન્ય રાઇડ હાઇટ પર હોય ત્યારે જ ટાઇટ કરો (વ્હીલ પર, અથવા આર્મને એ ઊંચાઈ સુધી જૅકથી ઊંચકીને). વ્હીલ લટકતું હોય ત્યારે ટાઇટ કરો તો રબર પહેલેથી મરડાય અને થોડા મહિનામાં ફાટે.", "याद रखें: रबर-बुश वाले बोल्ट गाड़ी सामान्य राइड हाइट पर हो तभी टाइट करें (पहियों पर, या आर्म को उस ऊँचाई तक जैक से उठाकर). पहिया लटका हो तब टाइट करें तो रबर पहले से मरोड़ा जाता है और कुछ महीनों में फटता है."]] ] },
+
+  { id: 'faults', h: ["Common faults — symptom, cause and check", "સામાન્ય ખરાબી — લક્ષણ, કારણ અને તપાસ", "आम खराबी — लक्षण, कारण और जाँच"], b: [
+    ['p', ["Now you know every part and what it does, so you can work backwards from what the driver tells you. Start from the symptom, think which part could cause it, then prove it with a test — never replace parts by guessing.",
+      "હવે તમે દરેક ભાગ અને તેનું કામ જાણો છો, એટલે ડ્રાઇવર જે કહે તેના પરથી પાછળ તરફ વિચારી શકો. લક્ષણથી શરૂ કરો, કયો ભાગ કારણ હોઈ શકે તે વિચારો, પછી ટેસ્ટથી સાબિત કરો — અનુમાનથી ભાગ ક્યારેય ન બદલો.",
+      "अब आप हर पार्ट और उसका काम जानते हैं, इसलिए ड्राइवर जो बताए उससे पीछे की ओर सोच सकते हैं. लक्षण से शुरू करें, कौन-सा पार्ट कारण हो सकता है सोचें, फिर टेस्ट से साबित करें — अंदाज़े से पार्ट कभी न बदलें."]],
+    ['tbl', [[["Symptom", "Likely cause", "How to check"], ["લક્ષણ", "સંભવિત કારણ", "કેવી રીતે તપાસવું"], ["लक्षण", "संभावित कारण", "कैसे जाँचें"]], [
+      [["Clunk / knock over bumps", "ખાડા પર ખટાક / ઠક-ઠક", "गड्ढे पर खटाक / ठक-ठक"], ["Drop link, ball joint, bush or top mount", "ડ્રોપ લિંક, બૉલ જોઇન્ટ, બુશ કે ટોપ માઉન્ટ", "ड्रॉप लिंक, बॉल जॉइंट, बुश या टॉप माउंट"], ["Shake each link; pry bar on joints", "દરેક લિંક હલાવો; જોઇન્ટ પર પ્રાય બાર", "हर लिंक हिलाएँ; जॉइंट पर प्राई बार"]],
+      [["Car keeps bouncing, floats", "ગાડી ઉછળતી રહે, તરે", "गाड़ी उछलती रहे, तैरे"], ["Worn shock absorber", "ઘસાયેલો શૉક એબ્ઝોર્બર", "घिसा शॉक एब्ज़ॉर्बर"], ["Bounce test, look for oil leak", "બાઉન્સ ટેસ્ટ, તેલ લીક જુઓ", "बाउंस टेस्ट, तेल लीक देखें"]],
+      [["One corner sits low", "એક ખૂણો નીચો", "एक कोना नीचा"], ["Broken or sagged spring; air-spring leak", "તૂટેલી કે બેસી ગયેલી સ્પ્રિંગ; એર સ્પ્રિંગ લીક", "टूटी या बैठी स्प्रिंग; एयर स्प्रिंग लीक"], ["Measure ride height at all 4 corners", "ચારે ખૂણે રાઇડ હાઇટ માપો", "चारों कोनों पर राइड हाइट मापें"]],
+      [["Pulls to one side", "એક બાજુ ખેંચાય", "एक ओर खिंचे"], ["Tyre pressure, alignment (caster), worn bush, bent arm", "ટાયર પ્રેશર, એલાઇનમેન્ટ (કૅસ્ટર), ઘસાયેલો બુશ, વાંકો આર્મ", "टायर प्रेशर, अलाइनमेंट (कैस्टर), घिसा बुश, मुड़ा आर्म"], ["Pressures first, then alignment machine", "પહેલાં પ્રેશર, પછી એલાઇનમેન્ટ મશીન", "पहले प्रेशर, फिर अलाइनमेंट मशीन"]],
+      [["Tyre worn on one edge", "ટાયર એક કિનારીથી ઘસાય", "टायर एक किनारे से घिसे"], ["Wrong camber or toe", "ખોટો કૅમ્બર કે ટો", "गलत कैम्बर या टो"], ["Alignment check", "એલાઇનમેન્ટ તપાસ", "अलाइनमेंट जाँच"]],
+      [["Cupped / scalloped tyre wear", "ખાડા જેવો (કપિંગ) ઘસારો", "गड्ढेदार (कपिंग) घिसाव"], ["Worn dampers, wheel out of balance", "ઘસાયેલા ડેમ્પર, વ્હીલ બેલેન્સ નથી", "घिसे डैम्पर, पहिया बैलेंस नहीं"], ["Bounce / shock tester, wheel balancing", "બાઉન્સ / શૉક ટેસ્ટર, વ્હીલ બેલેન્સિંગ", "बाउंस / शॉक टेस्टर, व्हील बैलेंसिंग"]],
+      [["Hum / growl rising with speed", "ઝડપ સાથે વધતો ગુંજારવ", "गति के साथ बढ़ती घरघराहट"], ["Wheel bearing", "વ્હીલ બેરિંગ", "व्हील बेयरिंग"], ["Rock wheel at 12–6 o'clock, spin and listen", "12–6 વાગ્યે વ્હીલ હલાવો, ફેરવીને સાંભળો", "12–6 बजे पहिया हिलाएँ, घुमाकर सुनें"]],
+      [["Creak when steering at parking speed", "પાર્કિંગમાં સ્ટીયરિંગ ફેરવતાં કિચૂડ", "पार्किंग में स्टीयरिंग घुमाने पर चीं-चीं"], ["Strut top-mount bearing", "સ્ટ્રટ ટોપ-માઉન્ટ બેરિંગ", "स्ट्रट टॉप-माउंट बेयरिंग"], ["Hand on spring while a helper steers", "સહાયક સ્ટીયરિંગ ફેરવે ત્યારે સ્પ્રિંગ પર હાથ", "सहायक स्टीयरिंग घुमाए तब स्प्रिंग पर हाथ"]],
+      [["Steering wheel shakes when braking", "બ્રેક મારતાં સ્ટીયરિંગ ધ્રૂજે", "ब्रेक लगाने पर स्टीयरिंग काँपे"], ["Brake-disc thickness variation, worn arm bush", "બ્રેક ડિસ્કની જાડાઈમાં ફરક, ઘસાયેલો આર્મ બુશ", "ब्रेक डिस्क की मोटाई में फ़र्क, घिसा आर्म बुश"], ["Measure disc run-out, check bushes", "ડિસ્ક રન-આઉટ માપો, બુશ તપાસો", "डिस्क रन-आउट मापें, बुश जाँचें"]]]]],
+    ['go', ['#test', ["▶ Practise diagnosis in the Testing lab (try the mystery fault)", "▶ ટેસ્ટિંગ લેબમાં નિદાનની પ્રેક્ટિસ કરો (રહસ્ય ખામી અજમાવો)", "▶ टेस्टिंग लैब में निदान की प्रैक्टिस करें (रहस्य खराबी आज़माएँ)"]]] ] },
+
+  { id: 'inspect', h: ["Inspection — the order a good mechanic follows", "નિરીક્ષણ — સારો મિકેનિક જે ક્રમ અનુસરે", "निरीक्षण — अच्छा मैकेनिक जो क्रम अपनाता है"], b: [
+    ['p', ["A fixed order saves time and avoids missing faults. Each step builds on the one before — for example, there is no point measuring alignment before checking the tyres and joints.", "ચોક્કસ ક્રમ સમય બચાવે અને ખામી ચૂકી જવાતી અટકાવે. દરેક પગલું આગળના પર આધાર રાખે — દા.ત. ટાયર અને જોઇન્ટ તપાસ્યા વગર એલાઇનમેન્ટ માપવાનો કોઈ અર્થ નથી.", "तय क्रम समय बचाता है और खराबी छूटने से बचाता है. हर कदम पिछले पर टिका है — जैसे टायर और जॉइंट जाँचे बिना अलाइनमेंट मापने का कोई मतलब नहीं."]],
+    ['li', [["1. Talk to the driver and road-test: when does the noise or pull happen — over bumps, braking, turning, at speed?", "1. ડ્રાઇવર સાથે વાત કરો અને રોડ-ટેસ્ટ કરો: અવાજ કે ખેંચાણ ક્યારે થાય — ખાડા પર, બ્રેકમાં, વળાંકમાં, ઝડપમાં?", "1. ड्राइवर से बात करें और रोड-टेस्ट करें: आवाज़ या खिंचाव कब होता है — गड्ढे पर, ब्रेक में, मोड़ पर, तेज़ी पर?"],
+      ["2. Tyres: pressure, tread depth and the wear pattern (the tyre tells the story).", "2. ટાયર: પ્રેશર, ટ્રેડની ઊંડાઈ અને ઘસારાની પેટર્ન (ટાયર આખી કહાણી કહે).", "2. टायर: प्रेशर, ट्रेड की गहराई और घिसाव का पैटर्न (टायर पूरी कहानी बताता है)."],
+      ["3. Car on level ground: ride height at all four corners, bounce test on each corner.", "3. સમતલ જમીન પર ગાડી: ચારે ખૂણે રાઇડ હાઇટ, દરેક ખૂણે બાઉન્સ ટેસ્ટ.", "3. समतल ज़मीन पर गाड़ी: चारों कोनों पर राइड हाइट, हर कोने पर बाउंस टेस्ट."],
+      ["4. Car on a lift: look for oil leaks, broken springs, torn boots and cracked bushes.", "4. લિફ્ટ પર ગાડી: તેલ લીક, તૂટેલી સ્પ્રિંગ, ફાટેલાં બૂટ અને તિરાડવાળા બુશ જુઓ.", "4. लिफ़्ट पर गाड़ी: तेल लीक, टूटी स्प्रिंग, फटे बूट और दरार वाले बुश देखें."],
+      ["5. Wheels hanging: rock at 12–6 o'clock (bearing, ball joint) and 3–9 o'clock (tie-rods); lever every joint with a pry bar.", "5. વ્હીલ લટકતાં: 12–6 વાગ્યે હલાવો (બેરિંગ, બૉલ જોઇન્ટ) અને 3–9 વાગ્યે (ટાઇ-રોડ); દરેક જોઇન્ટ પ્રાય બારથી ચકાસો.", "5. पहिये लटके हों: 12–6 बजे हिलाएँ (बेयरिंग, बॉल जॉइंट) और 3–9 बजे (टाई-रॉड); हर जॉइंट प्राई बार से जाँचें."],
+      ["6. Only when everything is tight: 4-wheel alignment. Then a final road test.", "6. બધું બરાબર હોય ત્યારે જ: 4-વ્હીલ એલાઇનમેન્ટ. પછી અંતિમ રોડ-ટેસ્ટ.", "6. सब ठीक हो तभी: 4-व्हील अलाइनमेंट. फिर आख़िरी रोड-टेस्ट."]]],
+    ['go', ['#test', ["▶ Do each of these checks in the Testing lab", "▶ આ દરેક તપાસ ટેસ્ટિંગ લેબમાં કરો", "▶ ये हर जाँच टेस्टिंग लैब में करें"]]] ] },
+
+  { id: 'safety', h: ["Workshop safety", "વર્કશોપ સેફ્ટી", "वर्कशॉप सेफ्टी"], b: [
+    ['p', ["Suspension parts hold huge forces — the whole weight of the car and the stored energy of the springs. Most serious workshop accidents with suspensions come from forgetting one of these rules.", "સસ્પેન્શનના ભાગ મોટાં બળ ઝીલે છે — આખી ગાડીનું વજન અને સ્પ્રિંગમાં સંગ્રહેલી ઊર્જા. સસ્પેન્શનના મોટા ભાગના ગંભીર અકસ્માત આમાંનો કોઈ નિયમ ભૂલવાથી થાય છે.", "सस्पेंशन के पार्ट बहुत बड़े बल झेलते हैं — पूरी गाड़ी का वज़न और स्प्रिंग में जमा ऊर्जा. सस्पेंशन के ज़्यादातर गंभीर हादसे इनमें से कोई नियम भूलने से होते हैं."]],
+    ['li', [["Never work under a car held only by a jack — always put it on axle stands on firm, level ground, and chock the wheels.", "ફક્ત જૅક પર ઊભી ગાડી નીચે ક્યારેય કામ ન કરો — હંમેશાં મજબૂત, સમતલ જમીન પર એક્સલ સ્ટેન્ડ મૂકો અને વ્હીલને ચોક લગાવો.", "सिर्फ़ जैक पर खड़ी गाड़ी के नीचे कभी काम न करें — हमेशा मज़बूत, समतल ज़मीन पर एक्सल स्टैंड लगाएँ और पहियों को चॉक लगाएँ."],
+      ["Never undo the top nut of a strut without a proper spring compressor holding the spring. A compressed spring stores enough energy to kill.", "સાચું સ્પ્રિંગ કૉમ્પ્રેસર સ્પ્રિંગને પકડે નહીં ત્યાં સુધી સ્ટ્રટનો ઉપરનો નટ ક્યારેય ન ખોલો. દબાયેલી સ્પ્રિંગમાં જીવ લઈ શકે તેટલી ઊર્જા હોય.", "सही स्प्रिंग कंप्रेसर स्प्रिंग को पकड़े नहीं तब तक स्ट्रट का ऊपर का नट कभी न खोलें. दबी स्प्रिंग में जान ले सकने जितनी ऊर्जा होती है."],
+      ["Leaf springs are heavy and under tension — support the axle with a jack before removing U-bolts or shackles.", "લીફ સ્પ્રિંગ ભારે અને તણાવમાં હોય — U-બોલ્ટ કે શૅકલ ખોલતા પહેલાં એક્સલને જૅકથી ટેકો આપો.", "लीफ स्प्रिंग भारी और तनाव में होती है — U-बोल्ट या शैकल खोलने से पहले एक्सल को जैक से सहारा दें."],
+      ["Release the air pressure (with the diagnostic tester) before opening any air-suspension part.", "એર સસ્પેન્શનનો કોઈ ભાગ ખોલતા પહેલાં (ડાયગ્નોસ્ટિક ટેસ્ટરથી) હવાનું દબાણ કાઢો.", "एयर सस्पेंशन का कोई भी पार्ट खोलने से पहले (डायग्नोस्टिक टेस्टर से) हवा का दबाव निकालें."],
+      ["Do not blow brake dust with compressed air. Wear safety glasses, a mask and gloves.", "બ્રેકની ધૂળ કૉમ્પ્રેસ્ડ એરથી ન ઉડાડો. સેફ્ટી ચશ્માં, માસ્ક અને હાથમોજાં પહેરો.", "ब्रेक की धूल कंप्रेस्ड एयर से न उड़ाएँ. सेफ्टी चश्मा, मास्क और दस्ताने पहनें."],
+      ["Use a torque wrench on every suspension bolt, use new self-locking nuts where specified, and re-check wheel nuts after 50 km.", "દરેક સસ્પેન્શન બોલ્ટ પર ટૉર્ક રેન્ચ વાપરો, જ્યાં કહ્યું હોય ત્યાં નવા સેલ્ફ-લૉકિંગ નટ વાપરો, અને 50 km પછી વ્હીલ નટ ફરી તપાસો.", "हर सस्पेंशन बोल्ट पर टॉर्क रिंच लगाएँ, जहाँ कहा हो वहाँ नए सेल्फ-लॉकिंग नट लगाएँ, और 50 km बाद व्हील नट फिर जाँचें."]]],
+    ['tip', ["Remember: after any suspension repair — torque check, wheel alignment, road test. In that order, every time.", "યાદ રાખો: કોઈ પણ સસ્પેન્શન રિપેર પછી — ટૉર્ક તપાસ, વ્હીલ એલાઇનમેન્ટ, રોડ-ટેસ્ટ. દર વખતે આ જ ક્રમમાં.", "याद रखें: किसी भी सस्पेंशन रिपेयर के बाद — टॉर्क जाँच, व्हील अलाइनमेंट, रोड-टेस्ट. हर बार इसी क्रम में."]] ] }
+];
+
+// convert the source into THEORY[lang] (sections with block lists) for the renderer in app.js
+(function () {
+  const pick = (t, i) => (Array.isArray(t) ? t[i] : t);
+  const out = {};
+  ['en', 'gu', 'hi'].forEach((L, i) => {
+    out[L] = TH_SRC.map((s) => ({ id: s.id, svg: s.svg, h: pick(s.h, i), blocks: s.b.map(([k, v]) => {
+      if (k === 'li') return [k, v.map((x) => pick(x, i))];
+      if (k === 'tbl') return [k, [v[0][i], v[1].map((row) => row.map((c) => pick(c, i)))]];
+      if (k === 'go') return [k, [v[0], pick(v[1], i)]];
+      return [k, pick(v, i)];
+    }) }));
+  });
+  window.THEORY_BLOCKS = out;
+})();
 
 </script>
 <script>
@@ -4774,7 +5043,30 @@ window.Mcq = Mcq;
   }
 
   /* ── theory ── */
+  function thBlock([k, v]) {
+    if (k === 'p') return `<p>${esc(v)}</p>`;
+    if (k === 'h') return `<h3 class="th-h3">${esc(v)}</h3>`;
+    if (k === 'eq') return `<div class="th-eq">${esc(v)}</div>`;
+    if (k === 'tip') return `<div class="th-note th-tip"><b>💡</b><span>${esc(v)}</span></div>`;
+    if (k === 'ex') return `<div class="th-note th-ex"><b>✏️</b><span>${esc(v)}</span></div>`;
+    if (k === 'li') return `<ul>${v.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    if (k === 'tbl') return `<div class="scroll-x"><table class="th-table"><thead><tr>${v[0].map((x) => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${v[1].map((r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    if (k === 'go') return `<a class="btn th-go" href="${v[0]}">${esc(v[1])}</a>`;
+    return '';
+  }
   function renderTheory() {
+    const B = window.THEORY_BLOCKS && (THEORY_BLOCKS[LANG] || THEORY_BLOCKS.en);
+    if (B) {
+      const fig = (s) => s.svg ? `<div class="th-fig">${THEORY_SVG[s.svg].replace(/\{(\w+)\}/g, (m, k) => (THEORY_SVG_TX[LANG] || THEORY_SVG_TX.en)[k] || '')}</div>` : '';
+      $('#thToc').innerHTML = B.map((s, i) => `<a href="#theory" data-th="${s.id}">${i + 1}. ${esc(s.h)}</a>`).join('');
+      $('#thList').innerHTML = B.map((s, i) => `<article class="panel th-card th-long ${s.svg ? '' : 'nosvg'}" id="th-${s.id}">
+        <div class="th-body"><h2><span>${String(i + 1).padStart(2, '0')}</span>${esc(s.h)}</h2>${s.blocks.map(thBlock).join('')}
+        ${i + 1 < B.length ? `<a class="th-next" href="#theory" data-th="${B[i + 1].id}">${esc((UI[LANG] || UI.en).th_next || 'Next')} → ${i + 2}. ${esc(B[i + 1].h)}</a>` : ''}</div>
+        ${fig(s)}
+      </article>`).join('');
+      document.querySelectorAll('#thToc [data-th], #thList .th-next').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('th-' + el.dataset.th).scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+      return;
+    }
     const list = THEORY[LANG] || THEORY.en; const head = THEORY_HEAD[LANG] || THEORY_HEAD.en;
     $('#thToc').innerHTML = list.map((s, i) => `<a href="#theory" data-th="${s.id}">${i + 1}. ${esc(s.h)}</a>`).join('');
     $('#thList').innerHTML = list.map((s, i) => `<article class="panel th-card ${s.svg ? '' : 'nosvg'}" id="th-${s.id}">
