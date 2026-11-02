@@ -666,9 +666,11 @@ body.diagram-mode .dg-wrap { display: block; }
 @media (prefers-reduced-motion: reduce) { .th-svg .th-ax-bump { animation: none; transform: none; } .th-svg .th-ax-up { animation: none; transform: translateY(-22px); } .th-svg .th-ax-sprI { animation: none; transform: scaleY(.42); } .th-svg .th-ax-sprL { animation: none; transform: scaleY(.72); } .th-svg .th-ax-sprR { animation: none; transform: scaleY(.91); } .th-svg .th-ax-tilt { animation: none; transform: rotate(12.4deg); } }
 
 /* ── long-form theory lessons ── */
-.th-long { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
-.th-long.nosvg { grid-template-columns: 1fr; }
-.th-long .th-fig { position: sticky; top: 64px; }
+@media (min-width: 761px) {
+  .th-long { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .th-long.nosvg { grid-template-columns: 1fr; }
+  .th-long .th-fig { position: sticky; top: 64px; }
+}
 .th-body > p, .th-body > ul { max-width: 72ch; }
 .th-body > ul { margin: 4px 0 12px; }
 .th-body p { line-height: 1.65; }
