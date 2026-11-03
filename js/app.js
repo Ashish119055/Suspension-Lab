@@ -460,6 +460,6 @@
   setLang(store.get('lang') || 'en');
   route();
   window.SuspLab = { setSystem, go, state, setLang, howStart, howStop, toggleFull };
-  if (window.parent !== window) { let lastH = 0; const send = () => { const h = Math.ceil(document.documentElement.scrollHeight); if (Math.abs(h - lastH) > 4) { lastH = h; try { window.parent.postMessage({ dmHeight: h }, '*'); } catch (e) { /* ignore */ } } };
+  if (window.parent !== window) { let lastH = 0; const send = () => { if (document.fullscreenElement || document.querySelector('.stage.max')) return; const ft = document.querySelector('.foot'); const h = Math.ceil(ft ? ft.getBoundingClientRect().bottom + (window.scrollY || 0) + 8 : document.documentElement.scrollHeight); if (Math.abs(h - lastH) > 4) { lastH = h; try { window.parent.postMessage({ dmHeight: h }, '*'); } catch (e) { /* ignore */ } } };
     try { new ResizeObserver(send).observe(document.body); } catch (e) { setInterval(send, 800); } window.addEventListener('load', send); document.addEventListener('click', () => setTimeout(send, 350)); }
 })();
